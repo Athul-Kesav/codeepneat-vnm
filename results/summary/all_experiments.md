@@ -2,7 +2,7 @@
 
 Cells: best fine-tuned test acc % over V (V used, conv compression vs fp32).
 
-> **Evaluator correction.** Rows marked "CoDeepNEAT weights" / "search weights" (CIFAR-10 small search, early CIFAR-100 and ImageNet-100 rows) were scored by CoDeepNEAT's `test_nn`, which divides by n−1 batches instead of n. Their true values are lower by a factor (n−1)/n: ×0.9873 on CIFAR (10k test images, batch 128) and ×0.975 on ImageNet-100 (5k images, batch 128). Every other row was scored by our own evaluator and is exact. The report (`report/report.pdf`) uses the corrected values. The evaluator in `CoDeepNEAT/` is now fixed.
+> **Evaluator correction.** Rows marked "CoDeepNEAT weights" / "search weights" (CIFAR-10 small search, early CIFAR-100 and ImageNet-100 rows) were scored by CoDeepNEAT's `test_nn`, which divides by n−1 batches instead of n. Their true values are lower by a factor (n−1)/n: ×0.9873 on CIFAR (10k test images, batch 128) and ×0.975 on ImageNet-100 (5k images, batch 128). Every other row was scored by our own evaluator and is exact. The report uses the corrected values. The evaluator in `CoDeepNEAT/` is now fixed.
 
 | Dataset | Models | Pruning | Model | Params | Dense | 2:4 | 2:8 | 2:16 | 2:32 |
 |---|---|---|---|---|---|---|---|---|---|

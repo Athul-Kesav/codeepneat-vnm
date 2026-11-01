@@ -1,18 +1,54 @@
 # V:N:M Sparsity for NEAT-Evolved CNNs
 
-This project evolves CNNs with [CoDeepNEAT](https://arxiv.org/abs/1703.00548) and then compresses every convolution with [VENOM](https://arxiv.org/abs/2401.01764)'s **V:N:M** sparse format (N=2, M ∈ {4, 8, 16, 32}).
+This project evolves CNNs with [CoDeepNEAT](https://arxiv.org/abs/1703.00548) and then compresses every convolution with [VENOM](https://arxiv.org/abs/2310.02065)'s **V:N:M** sparse format (N=2, M ∈ {4, 8, 16, 32}).
 
 Pruned models are fine-tuned and then run on Sparse Tensor Cores with VENOM's **Spatha** kernel. We use three datasets: CIFAR-10, CIFAR-100 and ImageNet-100.
 
-**Full report:** [`report/report.pdf`](report/report.pdf).
+**Report:** [`report/report.pdf`](report/report.pdf) (5 pages + references; source `report/report.tex`).
 
 **Team.** The CIFAR-10 experiments were done by Anirudh (originally in [Anirudhmoosad/codeepneat-venom](https://github.com/Anirudhmoosad/codeepneat-venom)): the Colab pilot, the 80-generation strong search, and the first Python prune/pack path with its 8-epoch recover study. Athul did CIFAR-100 and ImageNet-100, the Spatha integration and timing, and the second-order pruning. This repository merges both; the CIFAR-10 winner was then re-run through the CIFAR-100 pipeline.
 
-## Headline results
+## Results
 
-Best evolved model: `bp493` from the residual+GAP search on CIFAR-100. Dense, it has 8.4M parameters, reaches 76.50% and takes 33.7 MB.
+The plots for every table below are in `figures/` (report figures) and `results/` (one plot per experiment).
 
-| Setting | Test acc. | Conv compression | Stored size | Whole-network speedup (batch 128) |
+### CIFAR-10
+
+*The Colab pilot and the strong search, with their full training, are Anirudh's. The strong search's winner was then pruned, fine-tuned and timed with the CIFAR-100 pipeline.*
+
+- **Searches.** Three searches, all in CoDeepNEAT's default space (concat aggregation, flatten+linear head):
+  - `colab_baseline`: Colab pilot, 12 generations on a T4.
+  - `venom_cifar10`: a small 12-generation search run alongside the CIFAR-100 one (Athul).
+  - `ada_cifar10_strong`: 80 generations with 4 × 12-epoch evaluations per blueprint, then a 150-epoch full train of the top 3.
+- **Colab pilot `bp608`.** Scores 81.98% dense (83.16% as originally reported, before the evaluator fix). Its convolutions are only 4.8% of its 47.4 MB; the rest is the flatten head. So even 2:16 shrinks the whole model by only 1.05× (zero-shot at V=8: 2:4 69.55%, 2:8 30.77%, 2:16 11.47%).
+- **Winner `bp1485`** (strong search, feature multiplier 3). Six 3×3 convs with 329 / 624 channels, 11.1M parameters, 44.4 MB.
+  - Its max-pools shrink the map to 4×4, so the head is tiny and 99.9% of the bytes are in convolutions.
+  - The dense checkpoint scores 85.61%. Fine-tuned for 30 epochs without pruning (the fair control), it reaches 86.45%.
+
+| `bp1485`, 30-epoch KD fine-tune (magnitude unless noted) | Test acc. | Conv compression | Stored size | Whole-network speedup (batch 128) |
+|---|---|---|---|---|
+| dense control | 86.45 | 1× | 44.4 MB | – |
+| 2:4, V=32 | 86.35 | 3.3× | 13.5 MB | 0.92× |
+| 2:8, V=8 | 86.52 | 6.3× | 7.0 MB | – |
+| 2:8, V=32 | 86.36 | 6.6× | 6.7 MB | 1.11× |
+| 2:16, V=8 | 85.48 | 12.6× | 3.5 MB | – |
+| 2:16, V=32 | 85.02 | 13.2× | 3.4 MB | 1.25× |
+| 2:32, V=32 | 80.52 | 26.3× | 1.7 MB | 1.30× |
+| 2:32, V=8, gradual OBS | 81.55 | 25.3× | 1.8 MB | – |
+
+- **2:8 is lossless and 2:16 costs 1 pt.** The 44.4 MB network fits in 7.0 MB with no loss, or in 3.5 MB at 85.5%.
+- **The recovery recipe decides what looks feasible.** The original study's 8-epoch Adam recover (no augmentation, no distillation) gave 2:16 at 26%. Our 30-epoch distilled fine-tune with crop and flip gives 85.5% on the same checkpoint.
+- **V hardly matters** on these wide layers (within 0.5 pt up to 2:16).
+- **Gradual OBS helps only at 2:32,** by 2.4 pt, far less than on CIFAR-100.
+- **Fastest network in the study.** Its wide convs are 60% of the forward time. At V=128 it is 1.24× (2:8), 1.33× (2:16) and 1.37× (2:32) faster end to end.
+
+Plots: `figures/other_datasets.png` (left), `results/grids/grid/venom_cifar10.png` (small search, 8-epoch fine-tune), `results/search/search_progress.png`.
+
+### CIFAR-100
+
+Best evolved model: `bp493` from our residual+GAP search. Dense, it has 8.4M parameters, reaches 76.50% and takes 33.7 MB.
+
+| `bp493` | Test acc. | Conv compression | Stored size | Whole-network speedup (batch 128) |
 |---|---|---|---|---|
 | dense | 76.50 | 1× | 33.7 MB | – |
 | 2:4, magnitude, V=8 | 76.26 | 3.1× | 10.8 MB | – |
@@ -22,49 +58,51 @@ Best evolved model: `bp493` from the residual+GAP search on CIFAR-100. Dense, it
 | 2:32, gradual OBS, V=8 | 63.72 | 25.1× | 1.4 MB | – |
 | 2:32, gradual OBS, V=32 (Spatha-runnable) | 61.50 | 25.5× | ≈1.4 MB | 1.19× |
 
-Speedup is only reported for V ≥ 32, because Spatha has no kernels for V = 8 or 16.
-
-CIFAR-10 Colab pilot: `bp608` (12 generations on a T4) scores 81.98% dense (83.16% as originally reported). Its convolutions are only 4.8% of its 47.4 MB, so V:N:M barely shrinks it (zero-shot V=8: 2:4 69.55%, 2:8 30.77%, 2:16 11.47%).
-
-CIFAR-10: `bp1485`, winner of an 80-generation search (`ada_cifar10_strong`), 11.1M parameters, 44.4 MB. Its dense checkpoint scores 85.61%; fine-tuned for 30 epochs without pruning (the fair control) it reaches 86.45%.
-
-| Setting (30-epoch KD fine-tune, magnitude unless noted) | Test acc. | Conv compression | Stored size | Whole-network speedup (batch 128) |
-|---|---|---|---|---|
-| 2:4, V=32 | 86.35 | 3.3× | 13.5 MB | 0.92× |
-| 2:8, V=8 | 86.52 | 6.3× | 7.0 MB | – |
-| 2:8, V=32 | 86.36 | 6.6× | 6.7 MB | 1.11× |
-| 2:16, V=8 | 85.48 | 12.6× | 3.5 MB | – |
-| 2:16, V=32 | 85.02 | 13.2× | 3.4 MB | 1.25× |
-| 2:32, V=32 | 80.52 | 26.3× | 1.7 MB | 1.30× |
-| 2:32, V=8, gradual OBS | 81.55 | 25.3× | 1.8 MB | – |
-
-Speedups are at V=32, where the accuracy was measured; at V=128 the same patterns reach 1.24× (2:8), 1.33× (2:16) and 1.37× (2:32), the highest in the study.
-
-- **V:N:M works on NEAT-evolved CNNs.**
-  - 2:4 is near-lossless on all 15 well-trained models: median drop 0.3 pt, maximum 1.05 pt.
-  - On ImageNet-100, 2:4 is also near-lossless, and accuracy degrades gracefully up to 2:32 (38.7–41.6%).
+- **Training mattered more than the search.** Retraining the same evolved architectures with a modern recipe (300 epochs, CutMix, EMA) lifted them from at most 50% to 72.4%.
 - **The search space decides whether compression pays off.**
-  - CoDeepNEAT's flatten+linear head keeps up to 77% of the bytes dense, so whole-model compression is only about 1.3×.
+  - CoDeepNEAT's flatten+linear head keeps 34–77% of the bytes dense, so whole-model compression is only about 1.3×.
   - We added residual-sum aggregation and a GAP head to the search. With that, over 99% of the bytes are in prunable convolutions, which gives 24× whole-model compression and 4 pt more dense accuracy.
-- **Irregular evolved channel widths clash with large V.** Row padding drops 2:8 compression from 6.3× to 4.1–5.7× at V=128. On ResNets, a larger V raises compression instead.
 - **Gradual second-order pruning (VENOM-style) is decisive at high sparsity.**
-  - At 2:32 it beats magnitude pruning by 9.2 pt on average.
+  - At 2:32 it beats magnitude pruning by 9.2 pt on average, winning 26 of 27 comparisons.
   - One-shot OBS has a much better zero-shot accuracy, but the gain disappears after fine-tuning.
+- **Irregular evolved channel widths clash with large V.** Row padding drops 2:8 compression from 6.3× to 4.1–5.7× at V=128. On ResNets, a larger V raises compression instead.
+- **ResNet baseline (brief).** Size-matched CIFAR ResNets are 1.6–1.8 pt more accurate when dense and lose about the same under V:N:M. At 2:32, gradual OBS on the evolved models (63.7%) beats every magnitude-pruned ResNet (best 54.7%).
+
+Plots: `figures/c100_acc_vs_comp.png`, `pareto_size.png`, `method_compare.png`, `padding_vs_v.png`, `resnet_vs_evolved.png`; per-grid plots in `results/grids/{grid2,grid3,gridres,grid_resnet}/`.
+
+### ImageNet-100
+
+10-generation search in the default space (128×128 inputs), top 3 retrained for 120 epochs with recipe v1, then magnitude pruning with a 30-epoch KD fine-tune (best over V):
+
+| Model | Params | Dense | 2:4 | 2:8 | 2:16 | 2:32 | Best speedup (batch 32) |
+|---|---|---|---|---|---|---|---|
+| `bp207` | 2.77M | 53.68 | **54.30** | 53.28 | 48.00 | 38.70 | 1.15× |
+| `bp182` | 3.05M | 52.36 | 51.84 | 50.24 | 47.48 | 41.60 | 1.14× |
+| `bp230` | 0.47M | 52.28 | 51.96 | 49.26 | 45.38 | 40.12 | 1.00× |
+
+- **2:4 is near-lossless (at most 0.5 pt), 2:8 costs 0.4–3 pt,** and accuracy degrades gracefully to 38.7–41.6% at 2:32. For `bp207`, 2:4 even beats dense: the distilled fine-tune acts as extra training.
+- **Retraining dominates here too.** CoDeepNEAT's own training reached only about 29%; the same architectures reach 52–54% after retraining (`bp230`: 28.9% → 52.3%).
+- **The flatten head limits storage gains.** These models come from the default search space, so conv compression of 3–25× shrinks the whole model only 1.2–1.4× (`bp207`, `bp182`) or 2.0–3.4× (`bp230`).
+
+Plots: `figures/other_datasets.png` (right), `results/grids/grid2/imagenet100.png`, `results/grids/grid/imagenet100.png` (first grid, CoDeepNEAT weights).
+
+### Across all three datasets
+
+- **V:N:M works on NEAT-evolved CNNs.** 2:4 is near-lossless on all 15 well-trained models: median drop 0.3 pt, maximum 1.05 pt.
 - **Speed is limited.**
   - Spatha speeds up the conv GEMMs by 1.4–2.6× at 2:8, and up to about 8× at 2:32.
-  - A full forward pass is only 1.0–1.3× faster at large batch and is not faster at batch 1. Convolutions are under half the runtime, and im2col costs as much as the sparse GEMM.
-- **The recovery recipe decides what looks feasible.** The earlier CIFAR-10 study used an 8-epoch Adam recover without augmentation or distillation and found 2:16 unusable (26%). Our 30-epoch distilled fine-tune brings it to 85.5%.
+  - A full forward pass is only 1.0–1.37× faster at large batch and is not faster at batch 1. Convolutions are under half the runtime (60% at most), and im2col costs as much as the sparse GEMM.
+  - Speedup is only reported for V ≥ 32, because Spatha has no kernels for V = 8 or 16. All 312 timing runs: `results/end_to_end/e2e_speedup_heatmap.png`.
 - **CoDeepNEAT's evaluator overstates accuracy** by n/(n−1) for n test batches: +1.3% relative at batch 128 on CIFAR, +2.6% at batch 256. It is fixed in this copy, and the report corrects every affected number.
 - **Search robustness.** A blueprint whose network would not fit in GPU memory during the search now scores 0 instead of crashing the generation (merged from the CIFAR-10 search code).
 - **Two silent Spatha bugs**, both returning wrong results without an error:
   - At M=32, the reduction dimension K must be padded to a multiple of 256.
   - A single call is limited to 65,535 column tiles.
-- **ResNet baseline (brief).** Size-matched CIFAR ResNets are 1.6–1.8 pt more accurate when dense and lose about the same under V:N:M. At 2:32, gradual OBS on the evolved models (63.7%) beats every magnitude-pruned ResNet (best 54.7%).
 
 ## Repository layout
 
 ```text
-final/
+codeepneat-vnm/
 ├── README.md, requirements.txt, requirements-venom.txt, .gitignore, .gitattributes
 ├── CoDeepNEAT/                 sash-a CoDeepNEAT (PyTorch), with our changes (see below)
 │   ├── src/, configuration/    search code; configs in configuration/configs/{venom_cifar10,venom_cifar100,
@@ -98,18 +136,27 @@ final/
 ├── scripts/                    setup_{main_env,venom,data}.sh, run_all.sh, run_*.sh per stage, env.sh, venom_env.sh,
 │                               patches/spatha_v_custom.patch, export_imagenet100.py
 ├── external/                   created by the setup scripts, not shipped: env_main/, venom_build/
-├── results/                    tables and raw results
+├── results/                    tables and plots of every result
 │   ├── summary/all_experiments.md     every experiment in one table
 │   ├── summary/resnet_vs_evolved.md
 │   ├── pruning_criteria/              magnitude vs one-shot OBS vs gradual OBS
-│   ├── grids/<grid>/                  per-grid summaries and CSVs
+│   ├── grids/<grid>/                  grid_summary.md + one plot per dataset (accuracy vs pattern, per V)
 │   ├── spatha_gemm/vscan.jsonl
-│   ├── end_to_end/                    e2e.csv (288 runs), e2e_summary.md, raw jsonl
-│   └── search/                        per-generation search accuracy (+ ada_cifar10_strong_progress.csv)
-├── figures/                    300-dpi PNGs of every plot and diagram (for slides)
-│   └── architectures/          CoDeepNEAT's own graphs of the 15 evolved winners
-├── presentation/               VNM_NEAT_CNNs.pptx (19-slide deck)
-└── report/                     report.tex, report.pdf, figs/ (PDF figures), diagrams/ (TikZ sources)
+│   ├── end_to_end/                    e2e_summary.md, e2e_speedup_heatmap.png (312 runs), raw jsonl
+│   └── search/                        search_progress.png (fitness per generation, all 5 searches)
+├── figures/                    the final result plots (300-dpi PNGs)
+└── report/                     report.tex, report.pdf, figs/ (the three diagrams it uses)
+```
+
+## Checking out
+
+The model weights and generation pickles are stored with [Git LFS](https://git-lfs.com), so install it before cloning:
+
+```bash
+git lfs install
+git clone https://github.com/Athul-Kesav/codeepneat-vnm.git
+cd codeepneat-vnm
+git lfs pull                  # fetches the *.pt / *.model / *.pickle files (needed to rebuild and prune the models)
 ```
 
 ## Quick start
@@ -160,10 +207,10 @@ Two environments are needed, because Spatha only builds against an old toolchain
 | speed | Spatha V-scan | `scripts/run_vscan.sh <gpu> <V>` |
 | speed | End-to-end inference | `scripts/run_e2e.sh <gpu> <V>` (set `EXTRA="--models ... --batches 32,1"` for ImageNet-100) |
 | speed | ImageNet-100 correctness (32 images) | `scripts/run_in100_check.sh <gpu> <V>` |
-| figures | Architecture graphs | `cd vnm && python plot_architectures.py` |
-| figures | Report | `cd report && pdflatex report.tex && pdflatex report.tex` |
+| figures | Architecture graphs | `cd vnm && python plot_architectures.py` (writes `figures/architectures/`) |
+| report | Report | `cd report && pdflatex report.tex && pdflatex report.tex` |
 
-The trained weights of every model in the report are included, so any stage can be run without the stages before it. The diagram sources are in `report/diagrams/*.tex` (standalone TikZ, compiled to `report/figs/diag_*.pdf`).
+The trained weights of every model in the report are included, so any stage can be run without the stages before it.
 
 ## How V:N:M is applied to a convolution
 
@@ -177,7 +224,7 @@ The trained weights of every model in the report are included, so any stage can 
 
 ## Evolved architectures
 
-`figures/architectures/` holds the plots made by CoDeepNEAT's built-in visualisers (Graphviz), for the top 3 models of every search:
+`python vnm/plot_architectures.py` draws the winners with CoDeepNEAT's built-in visualisers (Graphviz) into `figures/architectures/`, for the top 3 models of every search:
 
 - `<run>_bp<id>_blueprint_genome.png` (`BlueprintGenome.visualize`): the blueprint graph. Each node names its module species, and the module chosen for each species is drawn as a subgraph.
 - `<run>_bp<id>_phenotype.png` (`Network.visualize`): the assembled network, layer by layer. Conv nodes are yellow, aggregation nodes violet, other nodes green. The classifier head (GAP or flatten, then linear) is added after the graph, so it is not drawn.
@@ -210,6 +257,10 @@ The report discusses each point.
 
 ## References
 
-- Miikkulainen et al., *Evolving Deep Neural Networks*, 2019 (arXiv:1703.00548). Implementation: https://github.com/sash-a/CoDeepNEAT
-- Castro et al., *VENOM: A Vectorized N:M Format for Unleashing the Power of Sparse Tensor Cores*, SC'23. Code: https://github.com/UDC-GAC/venom
-- Frantar & Alistarh, *SparseGPT*, ICML 2023. Kurtic et al., *The Optimal BERT Surgeon*, EMNLP 2022.
+- This project: https://github.com/Athul-Kesav/codeepneat-vnm. The teammate's original CIFAR-10 study: https://github.com/Anirudhmoosad/codeepneat-venom
+- Miikkulainen et al., *Evolving Deep Neural Networks*, 2019: https://arxiv.org/abs/1703.00548. Implementation we build on: https://github.com/sash-a/CoDeepNEAT
+- Castro et al., *VENOM: A Vectorized N:M Format for Unleashing the Power of Sparse Tensor Cores*, SC'23: https://arxiv.org/abs/2310.02065. Code: https://github.com/UDC-GAC/venom
+- Hassibi & Stork, *Optimal Brain Surgeon*, NeurIPS 1992: https://proceedings.neurips.cc/paper/1992/hash/303ed4c69846ab36c2904d3ba8573050-Abstract.html
+- Frantar & Alistarh, *SparseGPT*, ICML 2023: https://arxiv.org/abs/2301.00774. Kurtic et al., *The Optimal BERT Surgeon*, EMNLP 2022: https://arxiv.org/abs/2203.07259
+- Mishra et al., *Accelerating Sparse Deep Neural Networks* (2:4), 2021: https://arxiv.org/abs/2104.08378
+- Tian et al., *Contrastive Multiview Coding* (ImageNet-100 split), ECCV 2020: https://arxiv.org/abs/1906.05849

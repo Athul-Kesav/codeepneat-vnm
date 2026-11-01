@@ -42,8 +42,7 @@ if want speed; then    # Spatha: GEMM V-scan, end-to-end inference, ImageNet-100
   done
   wait
 fi
-if want figures; then  # CoDeepNEAT architecture graphs, then the report
+if want figures; then  # CoDeepNEAT architecture graphs -> figures/architectures/
   source $S/env.sh
   (cd $P/vnm && CUDA_VISIBLE_DEVICES=0 python -W ignore plot_architectures.py)
-  (cd $P/report && pdflatex -interaction=nonstopmode report.tex >/dev/null && pdflatex -interaction=nonstopmode report.tex >/dev/null)
 fi
