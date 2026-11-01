@@ -145,7 +145,7 @@ codeepneat-vnm/
 │   ├── end_to_end/                    e2e_summary.md, e2e_speedup_heatmap.png (312 runs), raw jsonl
 │   └── search/                        search_progress.png (fitness per generation, all 5 searches)
 ├── figures/                    the final result plots (300-dpi PNGs)
-└── report/                     report.tex, report.pdf, figs/ (the three diagrams it uses)
+└── report/                     report.tex, report.pdf, figs/ (the two diagrams it uses)
 ```
 
 ## Checking out
@@ -208,7 +208,6 @@ Two environments are needed, because Spatha only builds against an old toolchain
 | speed | End-to-end inference | `scripts/run_e2e.sh <gpu> <V>` (set `EXTRA="--models ... --batches 32,1"` for ImageNet-100) |
 | speed | ImageNet-100 correctness (32 images) | `scripts/run_in100_check.sh <gpu> <V>` |
 | figures | Architecture graphs | `cd vnm && python plot_architectures.py` (writes `figures/architectures/`) |
-| report | Report | `cd report && pdflatex report.tex && pdflatex report.tex` |
 
 The trained weights of every model in the report are included, so any stage can be run without the stages before it.
 
