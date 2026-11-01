@@ -1,6 +1,6 @@
 #!/bin/bash
 # Datasets under CoDeepNEAT/data/Datasets/.
-#   CIFAR-10 / CIFAR-100: shipped in the folder (torchvision downloads them again if missing).
+#   CIFAR-10 / CIFAR-100: downloaded by torchvision into CoDeepNEAT/data/Datasets/ (not shipped in the repo).
 #   ImageNet-100 (clane9/imagenet-100 on Hugging Face, CMC 100-class split, about 8 GB):
 #     download -> export to ImageFolder (CoDeepNEAT search) -> 144 px uint8 cache in $VENOM_BUILD/cache/in100 (training).
 # usage: setup_data.sh [cifar|imagenet|all]   (default: all)

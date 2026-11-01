@@ -4,13 +4,11 @@ This project evolves CNNs with [CoDeepNEAT](https://arxiv.org/abs/1703.00548) an
 
 Pruned models are fine-tuned and then run on Sparse Tensor Cores with VENOM's **Spatha** kernel. We use three datasets: CIFAR-10, CIFAR-100 and ImageNet-100.
 
-**Report:** [`report/report.pdf`](report/report.pdf) (5 pages + references; source `report/report.tex`).
-
 **Team.** The CIFAR-10 experiments were done by Anirudh (originally in [Anirudhmoosad/codeepneat-venom](https://github.com/Anirudhmoosad/codeepneat-venom)): the Colab pilot, the 80-generation strong search, and the first Python prune/pack path with its 8-epoch recover study. Athul did CIFAR-100 and ImageNet-100, the Spatha integration and timing, and the second-order pruning. This repository merges both; the CIFAR-10 winner was then re-run through the CIFAR-100 pipeline.
 
 ## Results
 
-The plots for every table below are in `figures/` (report figures) and `results/` (one plot per experiment).
+The plots for every table below are in `figures/` (summary figures) and `results/` (one plot per experiment).
 
 ### CIFAR-10
 
@@ -93,7 +91,7 @@ Plots: `figures/other_datasets.png` (right), `results/grids/grid2/imagenet100.pn
   - Spatha speeds up the conv GEMMs by 1.4–2.6× at 2:8, and up to about 8× at 2:32.
   - A full forward pass is only 1.0–1.37× faster at large batch and is not faster at batch 1. Convolutions are under half the runtime (60% at most), and im2col costs as much as the sparse GEMM.
   - Speedup is only reported for V ≥ 32, because Spatha has no kernels for V = 8 or 16. All 312 timing runs: `results/end_to_end/e2e_speedup_heatmap.png`.
-- **CoDeepNEAT's evaluator overstates accuracy** by n/(n−1) for n test batches: +1.3% relative at batch 128 on CIFAR, +2.6% at batch 256. It is fixed in this copy, and the report corrects every affected number.
+- **CoDeepNEAT's evaluator overstates accuracy** by n/(n−1) for n test batches: +1.3% relative at batch 128 on CIFAR, +2.6% at batch 256. It is fixed in this copy, and every number in this README is corrected.
 - **Search robustness.** A blueprint whose network would not fit in GPU memory during the search now scores 0 instead of crashing the generation (merged from the CIFAR-10 search code).
 - **Two silent Spatha bugs**, both returning wrong results without an error:
   - At M=32, the reduction dimension K must be padded to a multiple of 256.
@@ -107,7 +105,7 @@ codeepneat-vnm/
 ├── CoDeepNEAT/                 sash-a CoDeepNEAT (PyTorch), with our changes (see below)
 │   ├── src/, configuration/    search code; configs in configuration/configs/{venom_cifar10,venom_cifar100,
 │   │                           venom_cifar100_res,imagenet100,ada_cifar10_strong}.json
-│   ├── data/                   DataManager.py (code) + Datasets/ (CIFAR-10/100 included; ImageNet-100 via setup_data.sh)
+│   ├── data/                   DataManager.py (code) + Datasets/ (not shipped; downloaded by scripts/setup_data.sh)
 │   └── runs/<run>/             one folder per search (CIFAR-10: colab_baseline = Colab pilot, ada_cifar10_strong = 80-generation search,
 │                               venom_cifar10 = small search)
 │       ├── config.json, generations/*.pickle      architectures (needed to rebuild any blueprint)
@@ -144,8 +142,7 @@ codeepneat-vnm/
 │   ├── spatha_gemm/vscan.jsonl
 │   ├── end_to_end/                    e2e_summary.md, e2e_speedup_heatmap.png (312 runs), raw jsonl
 │   └── search/                        search_progress.png (fitness per generation, all 5 searches)
-├── figures/                    the final result plots (300-dpi PNGs)
-└── report/                     report.tex, report.pdf, figs/ (the two diagrams it uses)
+└── figures/                    the final result plots (300-dpi PNGs)
 ```
 
 ## Checking out
@@ -166,7 +163,7 @@ Everything runs from this folder; nothing outside it is referenced. Large, machi
 ```bash
 scripts/setup_main_env.sh     # external/env_main: Python 3.13, PyTorch 2.6 (CUDA 12.4), requirements.txt, Graphviz
 scripts/setup_venom.sh        # external/venom_build: VENOM env (PyTorch 1.13.1, CUDA 11.7) + Spatha for V = 32/64/128/256
-scripts/setup_data.sh all     # CIFAR-10/100 (shipped; re-downloaded if missing) + ImageNet-100 (about 8 GB download)
+scripts/setup_data.sh all     # downloads CIFAR-10/100 + ImageNet-100 (about 8 GB) into CoDeepNEAT/data/Datasets/
 scripts/run_all.sh            # the whole project; or pick stages: run_all.sh search train prune speed figures
 ```
 
@@ -185,8 +182,9 @@ Two environments are needed, because Spatha only builds against an old toolchain
 
 ## Data
 
-- **CIFAR-10 and CIFAR-100** are included in `CoDeepNEAT/data/Datasets/` (356 MB). If they are missing, `scripts/setup_data.sh cifar` downloads them.
-- **ImageNet-100** (CMC 100-class split, [clane9/imagenet-100](https://huggingface.co/datasets/clane9/imagenet-100), about 8 GB) is not included. `scripts/setup_data.sh imagenet` downloads it, exports it to an ImageFolder (used by the CoDeepNEAT search), and builds the 144-px uint8 cache in `$VENOM_BUILD/cache/in100` (used by training, pruning and timing).
+- **No datasets are included in the repository.** Download them with the helper script before running anything.
+- **CIFAR-10 and CIFAR-100** (about 350 MB): `scripts/setup_data.sh cifar` downloads them into `CoDeepNEAT/data/Datasets/`.
+- **ImageNet-100** (CMC 100-class split, [clane9/imagenet-100](https://huggingface.co/datasets/clane9/imagenet-100), about 8 GB): `scripts/setup_data.sh imagenet` downloads it, exports it to an ImageFolder (used by the CoDeepNEAT search), and builds the 144-px uint8 cache in `$VENOM_BUILD/cache/in100` (used by training, pruning and timing).
 - `CoDeepNEAT/data/DataManager.py` is code, not data, and must stay.
 
 ## Reproducing
@@ -209,7 +207,7 @@ Two environments are needed, because Spatha only builds against an old toolchain
 | speed | ImageNet-100 correctness (32 images) | `scripts/run_in100_check.sh <gpu> <V>` |
 | figures | Architecture graphs | `cd vnm && python plot_architectures.py` (writes `figures/architectures/`) |
 
-The trained weights of every model in the report are included, so any stage can be run without the stages before it.
+The trained weights of every model in the results above are included, so any stage can be run without the stages before it.
 
 ## How V:N:M is applied to a convolution
 
@@ -252,11 +250,8 @@ The best model is `venom_cifar100_res_bp493_*`.
 - Timings were taken on shared GPUs, in eager PyTorch 1.13.
 - Settings with V = 8 or 16 cannot be timed.
 
-The report discusses each point.
-
 ## References
 
-- This project: https://github.com/Athul-Kesav/codeepneat-vnm. The teammate's original CIFAR-10 study: https://github.com/Anirudhmoosad/codeepneat-venom
 - Miikkulainen et al., *Evolving Deep Neural Networks*, 2019: https://arxiv.org/abs/1703.00548. Implementation we build on: https://github.com/sash-a/CoDeepNEAT
 - Castro et al., *VENOM: A Vectorized N:M Format for Unleashing the Power of Sparse Tensor Cores*, SC'23: https://arxiv.org/abs/2310.02065. Code: https://github.com/UDC-GAC/venom
 - Hassibi & Stork, *Optimal Brain Surgeon*, NeurIPS 1992: https://proceedings.neurips.cc/paper/1992/hash/303ed4c69846ab36c2904d3ba8573050-Abstract.html
