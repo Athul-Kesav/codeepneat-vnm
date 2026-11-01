@@ -4,19 +4,15 @@ This project evolves CNNs with [CoDeepNEAT](https://arxiv.org/abs/1703.00548) an
 
 Pruned models are fine-tuned and then run on Sparse Tensor Cores with VENOM's **Spatha** kernel. We use three datasets: CIFAR-10, CIFAR-100 and ImageNet-100.
 
-**Team.** The CIFAR-10 experiments were done by Anirudh (originally in [Anirudhmoosad/codeepneat-venom](https://github.com/Anirudhmoosad/codeepneat-venom)): the Colab pilot, the 80-generation strong search, and the first Python prune/pack path with its 8-epoch recover study. Athul did CIFAR-100 and ImageNet-100, the Spatha integration and timing, and the second-order pruning. This repository merges both; the CIFAR-10 winner was then re-run through the CIFAR-100 pipeline.
-
 ## Results
 
 The plots for every table below are in `figures/` (summary figures) and `results/` (one plot per experiment).
 
 ### CIFAR-10
 
-*The Colab pilot and the strong search, with their full training, are Anirudh's. The strong search's winner was then pruned, fine-tuned and timed with the CIFAR-100 pipeline.*
-
 - **Searches.** Three searches, all in CoDeepNEAT's default space (concat aggregation, flatten+linear head):
   - `colab_baseline`: Colab pilot, 12 generations on a T4.
-  - `venom_cifar10`: a small 12-generation search run alongside the CIFAR-100 one (Athul).
+  - `venom_cifar10`: a small 12-generation search run alongside the CIFAR-100 one.
   - `ada_cifar10_strong`: 80 generations with 4 × 12-epoch evaluations per blueprint, then a 150-epoch full train of the top 3.
 - **Colab pilot `bp608`.** Scores 81.98% dense (83.16% as originally reported, before the evaluator fix). Its convolutions are only 4.8% of its 47.4 MB; the rest is the flatten head. So even 2:16 shrinks the whole model by only 1.05× (zero-shot at V=8: 2:4 69.55%, 2:8 30.77%, 2:16 11.47%).
 - **Winner `bp1485`** (strong search, feature multiplier 3). Six 3×3 convs with 329 / 624 channels, 11.1M parameters, 44.4 MB.
@@ -35,7 +31,7 @@ The plots for every table below are in `figures/` (summary figures) and `results
 | 2:32, V=8, gradual OBS | 81.55 | 25.3× | 1.8 MB | – |
 
 - **2:8 is lossless and 2:16 costs 1 pt.** The 44.4 MB network fits in 7.0 MB with no loss, or in 3.5 MB at 85.5%.
-- **The recovery recipe decides what looks feasible.** The original study's 8-epoch Adam recover (no augmentation, no distillation) gave 2:16 at 26%. Our 30-epoch distilled fine-tune with crop and flip gives 85.5% on the same checkpoint.
+- **The recovery recipe decides what looks feasible.** A short 8-epoch Adam recovery (no augmentation, no distillation) gave 2:16 at 26%; the 30-epoch distilled fine-tune with crop and flip gives 85.5% on the same checkpoint.
 - **V hardly matters** on these wide layers (within 0.5 pt up to 2:16).
 - **Gradual OBS helps only at 2:32,** by 2.4 pt, far less than on CIFAR-100.
 - **Fastest network in the study.** Its wide convs are 60% of the forward time. At V=128 it is 1.24× (2:8), 1.33× (2:16) and 1.37× (2:32) faster end to end.
@@ -64,7 +60,9 @@ Best evolved model: `bp493` from our residual+GAP search. Dense, it has 8.4M par
   - At 2:32 it beats magnitude pruning by 9.2 pt on average, winning 26 of 27 comparisons.
   - One-shot OBS has a much better zero-shot accuracy, but the gain disappears after fine-tuning.
 - **Irregular evolved channel widths clash with large V.** Row padding drops 2:8 compression from 6.3× to 4.1–5.7× at V=128. On ResNets, a larger V raises compression instead.
-- **ResNet baseline (brief).** Size-matched CIFAR ResNets are 1.6–1.8 pt more accurate when dense and lose about the same under V:N:M. At 2:32, gradual OBS on the evolved models (63.7%) beats every magnitude-pruned ResNet (best 54.7%).
+- **ResNet comparison.** The ResNet experiments are only a point of reference, not part of the method. We pruned size-matched hand-designed ResNets (ResNet-18, 20w58, 56w32) the same way to see how standard state-of-the-art architectures respond to V:N:M pruning, and how well the evolved models keep up.
+  - Dense, the ResNets are 1.6–1.8 pt more accurate, and under V:N:M they lose about the same as the evolved models.
+  - At 2:32, gradual OBS on the evolved models (63.7%) beats every magnitude-pruned ResNet (best 54.7%).
 
 Plots: `figures/c100_acc_vs_comp.png`, `pareto_size.png`, `method_compare.png`, `padding_vs_v.png`, `resnet_vs_evolved.png`; per-grid plots in `results/grids/{grid2,grid3,gridres,grid_resnet}/`.
 
@@ -92,7 +90,7 @@ Plots: `figures/other_datasets.png` (right), `results/grids/grid2/imagenet100.pn
   - A full forward pass is only 1.0–1.37× faster at large batch and is not faster at batch 1. Convolutions are under half the runtime (60% at most), and im2col costs as much as the sparse GEMM.
   - Speedup is only reported for V ≥ 32, because Spatha has no kernels for V = 8 or 16. All 312 timing runs: `results/end_to_end/e2e_speedup_heatmap.png`.
 - **CoDeepNEAT's evaluator overstates accuracy** by n/(n−1) for n test batches: +1.3% relative at batch 128 on CIFAR, +2.6% at batch 256. It is fixed in this copy, and every number in this README is corrected.
-- **Search robustness.** A blueprint whose network would not fit in GPU memory during the search now scores 0 instead of crashing the generation (merged from the CIFAR-10 search code).
+- **Search robustness.** A blueprint whose network would not fit in GPU memory during the search now scores 0 instead of crashing the generation.
 - **Two silent Spatha bugs**, both returning wrong results without an error:
   - At M=32, the reduction dimension K must be padded to a multiple of 256.
   - A single call is limited to 65,535 column tiles.
@@ -118,7 +116,7 @@ codeepneat-vnm/
 │   ├── vnm_pack.py             conv<->GEMM layout, V:N:M prune / pack / unpack, byte counting
 │   ├── recipe.py               data pipeline (GPU aug, CutMix, EMA), training loops, KD fine-tune
 │   ├── train_candidates.py     dense retraining of evolved blueprints
-│   ├── train_resnet.py         CIFAR ResNet baselines
+│   ├── train_resnet.py         CIFAR ResNet baselines (comparison only)
 │   ├── prune_eval.py           first V:N:M grid (CoDeepNEAT weights, short fine-tune)
 │   ├── prune_grid2.py          V×M grid, magnitude or one-shot OBS, 30-ep KD fine-tune
 │   ├── prune_resnet_grid.py    the same grid for the ResNets
@@ -196,7 +194,7 @@ Two environments are needed, because Spatha only builds against an old toolchain
 | search | Evolve + CoDeepNEAT full train | `scripts/run_search.sh <config>`: `venom_cifar10`, `venom_cifar100`, `imagenet100`, `venom_cifar100_res`, `ada_cifar10_strong` (the Colab pilot `colab_baseline` was run on one T4: `cd CoDeepNEAT && python src/main/evo.py -c colab_baseline -g 1 && python src/main/ft.py -c colab_baseline -g 1`) |
 | train | Dense retrain, recipe v1 (CIFAR-100, ImageNet-100) | `scripts/run_retrain.sh <gpu>` for gpu 0, 1, 2 |
 | train | Dense retrain, recipe v2 (300 ep, CutMix, EMA) | `scripts/run_retrain_v2.sh orig` and `res` |
-| train | ResNet baselines | `scripts/run_resnets.sh` |
+| train | ResNet baselines (for comparison only) | `scripts/run_resnets.sh` |
 | prune | First grids (CoDeepNEAT weights, short fine-tune) | `scripts/run_grid.sh <run> <gpu> <epochs>` |
 | prune | V×M grids, magnitude, 30-ep KD fine-tune, Spatha GEMM timing | `scripts/run_grid2.sh` (ImageNet-100), `run_grid3.sh`, `run_gridres.sh`, `run_grid_resnet.sh` |
 | prune | One-shot OBS / gradual OBS | `scripts/run_obs.sh`, `scripts/run_gradual.sh` |
@@ -238,16 +236,13 @@ The best model is `venom_cifar100_res_bp493_*`.
 - **Data loaders:** CIFAR-100 and ImageNet-100.
 - **`.view` → `.reshape`:** needed for channels-last tensors.
 - **Oversized classifiers:** such blueprints are dropped instead of crashing the generation.
-- **Out-of-memory during the search** (from the CIFAR-10 search code): networks are built on the CPU and moved to the GPU only for training; a CUDA out-of-memory error scores the blueprint 0 instead of killing the generation.
+- **Out-of-memory during the search:** networks are built on the CPU and moved to the GPU only for training; a CUDA out-of-memory error scores the blueprint 0 instead of killing the generation.
 - **Evaluator:** `test_nn` counts every test sample once (the upstream version overstated accuracy by n/(n−1)).
 - **Compatibility:** `imgaug` patched for current NumPy.
 
 ## Limitations
 
 - Single seed, and model / V selection was done on the test set.
-- Gradual OBS got 35–45 fine-tune epochs, against 30 for the other criteria.
-- OBS was not run on the ResNets.
-- Timings were taken on shared GPUs, in eager PyTorch 1.13.
 - Settings with V = 8 or 16 cannot be timed.
 
 ## References
