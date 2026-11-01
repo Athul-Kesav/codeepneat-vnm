@@ -1,0 +1,32 @@
+{
+  "run_name": "venom_cifar100",
+  "device": "gpu",
+  "dataset": "cifar100",
+  "num_output_classes": 100,
+  "use_wandb": false,
+  "evolve_da": false,
+  "evolve_da_pop": false,
+  "multiobjective": false,
+
+  "n_generations": 12,
+  "bp_pop_size": 20,
+  "module_pop_size": 50,
+  "n_evals_per_bp": 2,
+  "epochs_in_evolution": 3,
+  "batch_size": 128,
+  "min_conv_channels": 32,
+  "max_conv_channels": 256,
+  "n_evals_per_gpu": 1,
+  "n_gpus": 3,
+  "n_module_species": 4,
+  "n_blueprint_species": 1,
+  "plot_best_genotypes": false,
+  "plot_best_phenotype": false,
+  "plot_every_genotype": false,
+  "plot_every_phenotype": false,
+
+  "fully_train_best_n_blueprints": 3,
+  "ft_feature_multipliers": [1],
+  "fully_train_max_epochs": 60,
+  "fully_train_accuracy_test_period": 5
+}

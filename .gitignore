@@ -1,0 +1,37 @@
+# Datasets and machine-local builds/envs (data/DataManager.py is code and stays tracked)
+CoDeepNEAT/data/Datasets/
+external/
+
+# Logs and scratch
+logs/
+tmp/
+*.log
+nohup.out
+
+# Python
+**/__pycache__/
+*.pyc
+.compile_cache/
+.ipynb_checkpoints/
+
+# LaTeX build artefacts (report.pdf is kept)
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+report/diagrams/*.pdf
+report/diagrams/*.aux
+
+# Large regenerable artefacts
+CoDeepNEAT/runs/**/*_layers.pt
+CoDeepNEAT/runs/**/graphs/
+
+# Model weights (*.pt, *.model) and generation pickles are tracked with Git LFS (.gitattributes)
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env

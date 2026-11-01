@@ -1,0 +1,17 @@
+--- a/spatha_mod/block_sparse/spmm/blockwise_library.cu
++++ b/spatha_mod/block_sparse/spmm/blockwise_library.cu
+@@ -312,7 +312,13 @@
+ 
+     auto output_matrix = torch::empty({B_num_cols,A_num_rows}, options);
+ 
+-#ifdef V_64
++#ifdef V_CUSTOM
++    SpmmBlockwiseOp<ShapeBase<V_CUSTOM, 64, 32>,  // block tile (V rows)
++                ShapeBase<32, 64, 32>,
++                ShapeBase<16, 8, 32>,
++                2>
++                op;
++#elif defined(V_64)
+     SpmmBlockwiseOp<ShapeBase<64, 64, 32>,  // block tile
+                 ShapeBase<32, 64, 32>,       // warp tile
+                 ShapeBase<16, 8, 32>,        // mma shape

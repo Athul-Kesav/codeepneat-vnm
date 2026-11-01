@@ -1,0 +1,6 @@
+{"run": "venom_cifar100_res", "bp": 482, "gen": 7, "params": 2507999, "evo_acc": 0.5422952586206896, "final_acc": 0.7269, "best_acc": 0.7269, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 1356.1451215744019}
+{"run": "venom_cifar100_res", "bp": 189, "gen": 2, "params": 2181849, "evo_acc": 0.5391192150635209, "final_acc": 0.7027, "best_acc": 0.7027, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 1951.7935719490051}
+{"run": "venom_cifar100_res", "bp": 125, "gen": 1, "params": 2181849, "evo_acc": 0.5335894963702359, "final_acc": 0.7027, "best_acc": 0.7027, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 2810.4094915390015}
+{"run": "venom_cifar100_res", "bp": 493, "gen": 7, "params": 8418417, "evo_acc": 0.552213305353902, "final_acc": 0.765, "best_acc": 0.765, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 4771.339989185333}
+{"run": "venom_cifar100_res", "bp": 614, "gen": 9, "params": 3175250, "evo_acc": 0.5332846529038112, "final_acc": 0.7192, "best_acc": 0.7204, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 3877.44815158844}
+{"run": "venom_cifar100_res", "bp": 741, "gen": 11, "params": 4331915, "evo_acc": 0.5385237068965517, "final_acc": 0.7247, "best_acc": 0.7247, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 4321.568194150925}

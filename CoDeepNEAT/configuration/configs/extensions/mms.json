@@ -1,0 +1,10 @@
+{
+  "run_name": "mms",
+  "configs": {
+    "mod_max": true,
+    "speciation_similar_centroid": true
+  },
+  "wandb_tags": [
+    "mms"
+  ]
+}

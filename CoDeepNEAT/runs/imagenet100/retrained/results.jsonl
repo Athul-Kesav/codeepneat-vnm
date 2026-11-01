@@ -1,0 +1,10 @@
+{"run": "imagenet100", "bp": 254, "gen": 9, "params": 471487, "evo_acc": 0.2780229448198198, "final_acc": 0.508, "best_acc": 0.508, "epochs": 120, "secs": 2242.5238120555878}
+{"run": "imagenet100", "bp": 230, "gen": 8, "params": 471487, "evo_acc": 0.28275267454954955, "final_acc": 0.5228, "best_acc": 0.5228, "epochs": 120, "secs": 2152.5706112384796}
+{"run": "imagenet100", "bp": 150, "gen": 5, "params": 1165171, "evo_acc": 0.2696438626126126, "final_acc": 0.4968, "best_acc": 0.498, "epochs": 120, "secs": 3086.1125473976135}
+{"run": "imagenet100", "bp": 182, "gen": 7, "params": 3053398, "evo_acc": 0.2600436373873874, "final_acc": 0.5236, "best_acc": 0.5236, "epochs": 120, "secs": 6504.791607618332}
+{"run": "imagenet100", "bp": 227, "gen": 8, "params": 1000507, "evo_acc": 0.2599099099099099, "final_acc": 0.4778, "best_acc": 0.4778, "epochs": 120, "secs": 2270.7687640190125}
+{"run": "imagenet100", "bp": 149, "gen": 5, "params": 863203, "evo_acc": 0.25436373873873874, "final_acc": 0.4956, "best_acc": 0.4956, "epochs": 120, "secs": 3594.4569840431213}
+{"run": "imagenet100", "bp": 201, "gen": 7, "params": 3479880, "evo_acc": 0.24939118806306304, "final_acc": 0.4794, "best_acc": 0.4794, "epochs": 120, "secs": 3248.931534051895}
+{"run": "imagenet100", "bp": 22, "gen": 1, "params": 5076271, "evo_acc": 0.2798669763513514, "final_acc": 0.5212, "best_acc": 0.5212, "epochs": 120, "secs": 11551.338769435883}
+{"run": "imagenet100", "bp": 205, "gen": 7, "params": 912158, "evo_acc": 0.2640941722972973, "final_acc": 0.48, "best_acc": 0.4806, "epochs": 120, "secs": 1675.8853242397308}
+{"run": "imagenet100", "bp": 207, "gen": 7, "params": 2765724, "evo_acc": 0.25721776463963963, "final_acc": 0.5368, "best_acc": 0.5368, "epochs": 120, "secs": 10649.946468830109}

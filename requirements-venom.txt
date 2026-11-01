@@ -1,0 +1,5 @@
+# VENOM / Spatha environment (separate conda env, see README "Environments")
+# python 3.10, CUDA toolkit 11.7, cmake
+torch==1.13.1    # +cu117
+numpy==1.26.4
+# Spatha itself is built from https://github.com/UDC-GAC/venom (end2end/install.sh), CUDA_ARCHS=86

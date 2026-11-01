@@ -1,0 +1,4 @@
+{
+  "run_name" : "base",
+  "wandb_tags": [ "base" ]
+}

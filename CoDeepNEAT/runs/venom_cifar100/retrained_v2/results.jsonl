@@ -1,0 +1,3 @@
+{"run": "venom_cifar100", "bp": 499, "gen": 7, "params": 5487772, "evo_acc": 0.3747589609800363, "final_acc": 0.6957, "best_acc": 0.6968, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 1468.574203491211}
+{"run": "venom_cifar100", "bp": 427, "gen": 6, "params": 3268624, "evo_acc": 0.3831102540834846, "final_acc": 0.7217, "best_acc": 0.7217, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 1664.5987277030945}
+{"run": "venom_cifar100", "bp": 430, "gen": 6, "params": 3616183, "evo_acc": 0.38539303539019965, "final_acc": 0.7239, "best_acc": 0.7239, "epochs": 300, "cutmix": 0.5, "ema": 0.999, "secs": 2907.3353531360626}

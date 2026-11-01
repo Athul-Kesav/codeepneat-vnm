@@ -1,0 +1,13 @@
+# Main environment: search, training, pruning (tested: Python 3.13, CUDA 12.x, RTX 6000 Ada)
+torch==2.6.0
+torchvision==0.21.0
+numpy
+pillow
+opencv-python
+scikit-learn
+matplotlib
+graphviz
+tarjan
+wandb            # imported by CoDeepNEAT even when disabled (WANDB_MODE=disabled)
+pandas
+pyarrow          # ImageNet-100 parquet export only

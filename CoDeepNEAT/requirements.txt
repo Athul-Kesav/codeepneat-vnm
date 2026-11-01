@@ -1,0 +1,30 @@
+# This file may be used to create an environment using:
+# conda create -p venv --file requirements.txt
+# activate venv in terminal: conda activate ./venv
+# platform: linux-64
+
+# Pytorch for CPU or GPU
+
+# Nvidia GPU cuda 10.0.130
+cudatoolkit==10.0.130
+pytorch
+torchvision
+
+# CPU
+# pytorch-cpu
+# torchvision-cpu
+
+
+matplotlib
+matplotlib-base
+numpy
+scikit-learn
+
+graphviz
+python-graphviz
+
+imgaug
+
+# No conda packages for the following, use pip install:
+# wandb
+# tarjan

@@ -1,0 +1,1 @@
+{"run": "ada_cifar10_strong", "bp": 1485, "fm": 3, "final_relu": true, "params": 11105950, "final_acc": 0.8768, "source": "fully_trained_models/bp-1485_fm-3-best-3.model (CoDeepNEAT ft.py, 150 ep, fm 3)"}
