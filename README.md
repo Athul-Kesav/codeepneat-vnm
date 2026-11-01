@@ -4,11 +4,9 @@ This project evolves CNNs with [CoDeepNEAT](https://arxiv.org/abs/1703.00548) an
 
 Pruned models are fine-tuned and then run on Sparse Tensor Cores with VENOM's **Spatha** kernel. We use three datasets: CIFAR-10, CIFAR-100 and ImageNet-100.
 
-**Full report:** [`report/report.pdf`](report/report.pdf) (25 pages; LaTeX source in `report/report.tex`).
+**Full report:** [`report/report.pdf`](report/report.pdf).
 
-**Team.** The CIFAR-10 experiments were done by Anirudh (originally in [Anirudhmoosad/codeepneat-venom](https://github.com/Anirudhmoosad/codeepneat-venom)): the Colab pilot, the 80-generation strong search, and the first Python prune/pack path with its 8-epoch recover study. Athul did CIFAR-100 and ImageNet-100, the Spatha integration and timing, and the second-order pruning. This repository merges both; the CIFAR-10 winner was then re-run through the CIFAR-100 pipeline. Anirudh's original CIFAR-10 report is kept as [`report/CoDeepNEAT_VNM.pdf`](report/CoDeepNEAT_VNM.pdf). Its accuracies were computed with CoDeepNEAT's buggy evaluator and are about 2 points high; `report/report.pdf` gives the corrected values.
-
-**Slides:** [`presentation/VNM_NEAT_CNNs.pptx`](presentation/VNM_NEAT_CNNs.pptx) (19 slides, with speaker notes).
+**Team.** The CIFAR-10 experiments were done by Anirudh (originally in [Anirudhmoosad/codeepneat-venom](https://github.com/Anirudhmoosad/codeepneat-venom)): the Colab pilot, the 80-generation strong search, and the first Python prune/pack path with its 8-epoch recover study. Athul did CIFAR-100 and ImageNet-100, the Spatha integration and timing, and the second-order pruning. This repository merges both; the CIFAR-10 winner was then re-run through the CIFAR-100 pipeline.
 
 ## Headline results
 
