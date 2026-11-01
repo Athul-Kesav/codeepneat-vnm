@@ -1,0 +1,47 @@
+// phenotype
+digraph best_g51_blueprint_i4815_phenotype {
+	"0_0" [label="Conv2d(3, 173, kernel_size=(3, 3), stride=(1, 1))
+<function relu6 at 0x7d3a1610e950>
+'out features: 173'" fillcolor=yellow style=filled]
+	"0_4" [label="0_4
+Conv2d(173, 248, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 248'" fillcolor=yellow style=filled]
+	"0_0" -> "0_4"
+	"0_1" [label="0_1
+Conv2d(248, 290, kernel_size=(3, 3), stride=(3, 3), padding=(1, 1))
+BatchNorm2d(290, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7d3a1610e7a0>
+'out features: 290'" fillcolor=yellow style=filled]
+	"0_4" -> "0_1"
+	"2_0" [label="2_0
+Dropout(p=0.32558303938225086, inplace=False)" fillcolor=green style=filled]
+	"0_1" -> "2_0"
+	"2_1" [label="2_1
+Identity()" fillcolor=white style=filled]
+	"2_0" -> "2_1"
+	"6_0" [label="6_0
+Conv2d(290, 173, kernel_size=(3, 3), stride=(1, 1))
+<function relu6 at 0x7d3a1610e950>
+'out features: 173'" fillcolor=yellow style=filled]
+	"2_1" -> "6_0"
+	"6_4" [label="6_4
+Conv2d(173, 248, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 248'" fillcolor=yellow style=filled]
+	"6_0" -> "6_4"
+	"6_1" [label="6_1
+Conv2d(248, 290, kernel_size=(3, 3), stride=(3, 3), padding=(1, 1))
+BatchNorm2d(290, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7d3a1610e7a0>
+'out features: 290'" fillcolor=yellow style=filled]
+	"6_4" -> "6_1"
+	"1_0" [label="1_0
+Dropout(p=0.32558303938225086, inplace=False)" fillcolor=green style=filled]
+	"6_1" -> "1_0"
+	"1_1" [label="1_1
+Identity()" fillcolor=white style=filled]
+	"1_0" -> "1_1"
+}

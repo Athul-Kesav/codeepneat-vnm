@@ -36,5 +36,6 @@ Cells: best fine-tuned test acc % over V (V used, conv compression vs fp32).
 | ImageNet-100 | evolved, retrained | magnitude | bp207 | 2.77M | 53.68 | 54.30 (V32, 2.9x) | 53.28 (V8, 6.2x) | 48.00 (V8, 12.4x) | 38.70 (V8, 24.7x) |
 | ImageNet-100 | evolved, retrained | magnitude | bp182 | 3.05M | 52.36 | 51.84 (V8, 3.0x) | 50.24 (V8, 6.0x) | 47.48 (V8, 11.9x) | 41.60 (V8, 23.7x) |
 | ImageNet-100 | evolved, retrained | magnitude | bp230 | 0.47M | 52.28 | 51.96 (V8, 3.2x) | 49.26 (V16, 5.8x) | 45.38 (V8, 12.6x) | 40.12 (V8, 25.0x) |
+| CIFAR-10 | evolved, Colab pilot (12 gen, T4) | magnitude, zero-shot (no fine-tune) | bp608 | 11.85M | 81.98 | 69.55 (V8, 3.2x) | 30.77 (V8, 6.4x) | 11.47 (V8, 12.7x) | - |
 | CIFAR-10 | evolved, strong search (80 gen), fm 3 | magnitude, 8-ep Adam (original recipe) | bp1485 | 11.11M | 85.59 | 86.01 (V8, 3.2x) | 79.78 (V8, 6.3x) | 26.36 (V8, 12.6x) | - |
 | CIFAR-10 | evolved, strong search (80 gen), fm 3 | magnitude, 30-ep KD | bp1485 | 11.11M | 85.61 (control 86.45) | 86.35 (V32, 3.3x) | 86.52 (V8, 6.3x) | 85.48 (V8, 12.6x) | 80.52 (V32, 26.3x) |

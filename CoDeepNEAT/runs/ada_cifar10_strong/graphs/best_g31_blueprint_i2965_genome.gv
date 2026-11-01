@@ -1,0 +1,58 @@
+digraph best_g31_blueprint_i2965_genome {
+	"blueprint_v 0" [label="Species: 21
+Gene id: 0
+Module: 2923" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 20
+Gene id: 1
+Module: 2909" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 0
+Gene id: 2
+Module: 2886" fillcolor=yellow style=filled]
+	"blueprint_v 12" [label="Species: 20
+Gene id: 12
+Module: 2909" fillcolor=yellow style=filled]
+	"blueprint_v 2" -> "blueprint_v 1"
+	"blueprint_v 12" -> "blueprint_v 2"
+	"blueprint_v 0" -> "blueprint_v 12"
+	label=""
+	subgraph cluster_genome_i2923 {
+		"module_21_2923_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_21_2923_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_21_2923_v 4" [fillcolor=cyan style=filled]
+		"module_21_2923_v 7" [fillcolor=cyan style=filled]
+		"module_21_2923_v 26" [fillcolor=cyan style=filled]
+		"module_21_2923_v 0" -> "module_21_2923_v 1"
+		"module_21_2923_v 7" -> "module_21_2923_v 1"
+		"module_21_2923_v 4" -> "module_21_2923_v 26"
+		"module_21_2923_v 0" -> "module_21_2923_v 4"
+		"module_21_2923_v 4" -> "module_21_2923_v 1"
+		"module_21_2923_v 26" -> "module_21_2923_v 1"
+		"module_21_2923_v 4" -> "module_21_2923_v 7"
+		color=lightgrey style=filled
+		label="Species: 21
+Module: 2923"
+	}
+	subgraph cluster_genome_i2909 {
+		"module_20_2909_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_20_2909_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_20_2909_v 0" -> "module_20_2909_v 1"
+		color=lightgrey style=filled
+		label="Species: 20
+Module: 2909"
+	}
+	subgraph cluster_genome_i2886 {
+		"module_0_2886_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_2886_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_2886_v 2" [fillcolor=cyan style=filled]
+		"module_0_2886_v 3" [fillcolor=cyan style=filled]
+		"module_0_2886_v 6" [fillcolor=cyan style=filled]
+		"module_0_2886_v 0" -> "module_0_2886_v 1"
+		"module_0_2886_v 0" -> "module_0_2886_v 2"
+		"module_0_2886_v 3" -> "module_0_2886_v 1"
+		"module_0_2886_v 2" -> "module_0_2886_v 6"
+		"module_0_2886_v 6" -> "module_0_2886_v 3"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 2886"
+	}
+}

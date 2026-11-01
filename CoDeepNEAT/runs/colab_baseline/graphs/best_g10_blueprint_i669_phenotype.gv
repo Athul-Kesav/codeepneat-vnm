@@ -1,0 +1,24 @@
+// phenotype
+digraph best_g10_blueprint_i669_phenotype {
+	"0_0" [label="Conv2d(3, 187, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+BatchNorm2d(187, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<built-in method sigmoid of type object at 0x7b1c92ff1000>
+'out features: 187'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+BatchNorm2d(187, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"0_0" -> "0_1"
+	"1_0" [label="1_0
+Conv2d(187, 207, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+BatchNorm2d(207, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 207'" fillcolor=yellow style=filled]
+	"0_1" -> "1_0"
+	"1_1" [label="1_1
+Reshape()
+Linear(in_features=59823, out_features=253, bias=True)
+BatchNorm1d(253, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 253'" fillcolor=lightblue style=filled]
+	"1_0" -> "1_1"
+}

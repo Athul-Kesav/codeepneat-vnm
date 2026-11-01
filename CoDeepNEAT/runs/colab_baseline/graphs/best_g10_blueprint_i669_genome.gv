@@ -1,0 +1,26 @@
+digraph best_g10_blueprint_i669_genome {
+	"blueprint_v 0" [label="Species: 2
+Gene id: 0
+Module: 620" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 617" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i620 {
+		"module_2_620_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_2_620_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_2_620_v 0" -> "module_2_620_v 1"
+		color=lightgrey style=filled
+		label="Species: 2
+Module: 620"
+	}
+	subgraph cluster_genome_i617 {
+		"module_0_617_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_617_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_617_v 0" -> "module_0_617_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 617"
+	}
+}

@@ -1,0 +1,36 @@
+digraph best_g51_blueprint_i4815_genome {
+	"blueprint_v 0" [label="Species: 2
+Gene id: 0
+Module: 4782" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 4646" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 0
+Gene id: 2
+Module: 4646" fillcolor=yellow style=filled]
+	"blueprint_v 6" [label="Species: 2
+Gene id: 6
+Module: 4782" fillcolor=yellow style=filled]
+	"blueprint_v 0" -> "blueprint_v 2"
+	"blueprint_v 2" -> "blueprint_v 6"
+	"blueprint_v 6" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i4782 {
+		"module_2_4782_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_2_4782_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_2_4782_v 4" [fillcolor=cyan style=filled]
+		"module_2_4782_v 0" -> "module_2_4782_v 4"
+		"module_2_4782_v 4" -> "module_2_4782_v 1"
+		color=lightgrey style=filled
+		label="Species: 2
+Module: 4782"
+	}
+	subgraph cluster_genome_i4646 {
+		"module_0_4646_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_4646_v 1" [label=Identity fillcolor=cyan shape=Msquare style=filled]
+		"module_0_4646_v 0" -> "module_0_4646_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 4646"
+	}
+}

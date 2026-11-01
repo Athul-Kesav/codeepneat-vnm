@@ -1,0 +1,99 @@
+// phenotype
+digraph best_g26_blueprint_i2506_phenotype {
+	"0_0" [label="Conv2d(3, 161, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 161'" fillcolor=yellow style=filled]
+	"0_2" [label="0_2
+Conv2d(161, 283, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(283, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 283'" fillcolor=yellow style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+BatchNorm2d(283, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"0_2" -> "0_1"
+	"2506_agg (1)" [label="2506_agg (1)
+" fillcolor=violet style=filled]
+	"0_1" -> "2506_agg (1)"
+	"2_0" [label="2_0
+Conv2d(283, 161, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 161'" fillcolor=yellow style=filled]
+	"0_1" -> "2_0"
+	"10_0" [label="10_0
+Identity()" fillcolor=white style=filled]
+	"0_1" -> "10_0"
+	"10_1" [label="10_1
+Reshape()
+Linear(in_features=18112, out_features=215, bias=True)
+BatchNorm1d(215, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 215'" fillcolor=lightblue style=filled]
+	"10_0" -> "10_1"
+	"2506_agg (4)" [label="2506_agg (4)
+" fillcolor=violet style=filled]
+	"10_1" -> "2506_agg (4)"
+	"4_0" [label="4_0
+Reshape()
+Conv2d(1132, 345, kernel_size=(5, 5), stride=(4, 4), padding=(2, 2))
+BatchNorm2d(345, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 345'" fillcolor=yellow style=filled]
+	"2506_agg (4)" -> "4_0"
+	"4_1" [label="4_1
+Reshape()
+Linear(in_features=345, out_features=105, bias=True)
+Dropout(p=0.23834262596787997, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 105'" fillcolor=lightblue style=filled]
+	"4_0" -> "4_1"
+	"2506_agg (1)" [label="2506_agg (1)
+" fillcolor=violet style=filled]
+	"4_1" -> "2506_agg (1)"
+	"1_0" [label="1_0
+Conv2d(573, 161, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 161'" fillcolor=yellow style=filled]
+	"2506_agg (1)" -> "1_0"
+	"1_2" [label="1_2
+Conv2d(161, 283, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(283, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 283'" fillcolor=yellow style=filled]
+	"1_0" -> "1_2"
+	"1_1" [label="1_1
+BatchNorm2d(283, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"1_2" -> "1_1"
+	"2_2" [label="2_2
+Conv2d(161, 283, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(283, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 283'" fillcolor=yellow style=filled]
+	"2_0" -> "2_2"
+	"2_1" [label="2_1
+BatchNorm2d(283, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"2_2" -> "2_1"
+	"2506_agg (1)" [label="2506_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "2506_agg (1)"
+	"2506_agg (4)" [label="2506_agg (4)
+" fillcolor=violet style=filled]
+	"2_1" -> "2506_agg (4)"
+}

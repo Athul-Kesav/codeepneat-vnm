@@ -1,0 +1,55 @@
+digraph top2_g71_blueprint_i6724_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 6571" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 6571" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 0
+Gene id: 2
+Module: 6571" fillcolor=yellow style=filled]
+	"blueprint_v 3" [label="Species: 0
+Gene id: 3
+Module: 6571" fillcolor=yellow style=filled]
+	"blueprint_v 4" [label="Species: 0
+Gene id: 4
+Module: 6571" fillcolor=yellow style=filled]
+	"blueprint_v 8" [label="Species: 8
+Gene id: 8
+Module: 6642" fillcolor=yellow style=filled]
+	"blueprint_v 14" [label="Species: 0
+Gene id: 14
+Module: 6571" fillcolor=yellow style=filled]
+	"blueprint_v 21" [label="Species: 0
+Gene id: 21
+Module: 6571" fillcolor=yellow style=filled]
+	"blueprint_v 0" -> "blueprint_v 3"
+	"blueprint_v 3" -> "blueprint_v 2"
+	"blueprint_v 4" -> "blueprint_v 1"
+	"blueprint_v 2" -> "blueprint_v 8"
+	"blueprint_v 8" -> "blueprint_v 4"
+	"blueprint_v 0" -> "blueprint_v 14"
+	"blueprint_v 14" -> "blueprint_v 4"
+	"blueprint_v 2" -> "blueprint_v 14"
+	"blueprint_v 0" -> "blueprint_v 21"
+	"blueprint_v 21" -> "blueprint_v 4"
+	label=""
+	subgraph cluster_genome_i6571 {
+		"module_0_6571_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_6571_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_6571_v 0" -> "module_0_6571_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 6571"
+	}
+	subgraph cluster_genome_i6642 {
+		"module_8_6642_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_8_6642_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_8_6642_v 2" [fillcolor=cyan style=filled]
+		"module_8_6642_v 0" -> "module_8_6642_v 2"
+		"module_8_6642_v 2" -> "module_8_6642_v 1"
+		color=lightgrey style=filled
+		label="Species: 8
+Module: 6642"
+	}
+}

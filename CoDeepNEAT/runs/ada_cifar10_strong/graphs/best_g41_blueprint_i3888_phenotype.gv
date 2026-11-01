@@ -1,0 +1,35 @@
+// phenotype
+digraph best_g41_blueprint_i3888_phenotype {
+	"0_0" [label="Conv2d(3, 73, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+BatchNorm2d(73, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7f65f750a950>
+'out features: 73'" fillcolor=yellow style=filled]
+	"0_2" [label="0_2
+Conv2d(73, 191, kernel_size=(7, 7), stride=(3, 3), padding=(3, 3))
+BatchNorm2d(191, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout2d(p=0.48586169111700017, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 191'" fillcolor=yellow style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+Dropout(p=0.013143506964626038, inplace=False)" fillcolor=green style=filled]
+	"0_2" -> "0_1"
+	"2_0" [label="2_0
+Identity()" fillcolor=white style=filled]
+	"0_1" -> "2_0"
+	"2_1" [label="2_1
+Conv2d(191, 413, kernel_size=(7, 7), stride=(2, 2))
+BatchNorm2d(413, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7f65f750a7a0>
+'out features: 413'" fillcolor=yellow style=filled]
+	"2_0" -> "2_1"
+	"1_0" [label="1_0
+Identity()" fillcolor=white style=filled]
+	"2_1" -> "1_0"
+	"1_1" [label="1_1
+Conv2d(413, 413, kernel_size=(7, 7), stride=(2, 2), padding=(2, 2))
+BatchNorm2d(413, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7f65f750a7a0>
+'out features: 413'" fillcolor=yellow style=filled]
+	"1_0" -> "1_1"
+}

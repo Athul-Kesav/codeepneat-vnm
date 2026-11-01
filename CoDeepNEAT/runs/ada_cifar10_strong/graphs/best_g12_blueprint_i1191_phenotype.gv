@@ -1,0 +1,44 @@
+// phenotype
+digraph best_g12_blueprint_i1191_phenotype {
+	"0_0" [label="Conv2d(3, 173, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(173, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 173'" fillcolor=yellow style=filled]
+	"0_2" [label="0_2
+Conv2d(173, 129, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(129, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 129'" fillcolor=yellow style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+Conv2d(129, 108, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(108, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 108'" fillcolor=yellow style=filled]
+	"0_2" -> "0_1"
+	"5_0" [label="5_0
+BatchNorm2d(108, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"0_1" -> "5_0"
+	"5_1" [label="5_1
+Conv2d(108, 238, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 238'" fillcolor=yellow style=filled]
+	"5_0" -> "5_1"
+	"1_0" [label="1_0
+Conv2d(238, 351, kernel_size=(5, 5), stride=(3, 3), padding=(2, 2))
+Dropout2d(p=0.1, inplace=False)
+<built-in method sigmoid of type object at 0x7f66cb590ec0>
+'out features: 351'" fillcolor=yellow style=filled]
+	"5_1" -> "1_0"
+	"1_1" [label="1_1
+Conv2d(351, 141, kernel_size=(5, 5), stride=(4, 4), padding=(2, 2))
+BatchNorm2d(141, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 141'" fillcolor=yellow style=filled]
+	"1_0" -> "1_1"
+}

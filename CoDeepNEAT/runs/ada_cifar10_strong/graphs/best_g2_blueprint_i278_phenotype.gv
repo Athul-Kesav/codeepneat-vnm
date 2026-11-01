@@ -1,0 +1,42 @@
+// phenotype
+digraph best_g2_blueprint_i278_phenotype {
+	"0_0" [label="BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"0_1" [label="0_1
+Conv2d(3, 508, kernel_size=(7, 7), stride=(1, 1))
+MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1273587194419565, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 508'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"1_0" [label="1_0
+Conv2d(508, 460, kernel_size=(1, 1), stride=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.22005152979880638, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 460'" fillcolor=yellow style=filled]
+	"0_1" -> "1_0"
+	"1_agg (1)" [label="1_agg (1)
+" fillcolor=violet style=filled]
+	"1_0" -> "1_agg (1)"
+	"1_5" [label="1_5
+Conv2d(460, 263, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+BatchNorm2d(263, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 263'" fillcolor=yellow style=filled]
+	"1_0" -> "1_5"
+	"1_2" [label="1_2
+Dropout(p=0.30452594629266, inplace=False)" fillcolor=green style=filled]
+	"1_5" -> "1_2"
+	"1_agg (1)" [label="1_agg (1)
+" fillcolor=violet style=filled]
+	"1_2" -> "1_agg (1)"
+	"1_1" [label="1_1
+Conv2d(362, 182, kernel_size=(3, 3), stride=(3, 3))
+BatchNorm2d(182, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 182'" fillcolor=yellow style=filled]
+	"1_agg (1)" -> "1_1"
+}

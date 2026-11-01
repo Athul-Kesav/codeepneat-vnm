@@ -88,6 +88,7 @@ The project question is:
 \end{enumerate}
 
 \subsection{Contributions}
+The CIFAR-10 experiments (Colab pilot, strong 80-generation search, the original Python prune/pack path and its 8-epoch recover study) were done by Anirudh; the CIFAR-100 and ImageNet-100 experiments, the Spatha integration and timing, the second-order pruning and this combined analysis by Athul. Section~\ref{sec:c10} re-runs the CIFAR-10 winner through the CIFAR-100 pipeline. The project contributes:
 \begin{enumerate}
 \item \textbf{A V:N:M pipeline for CNNs:}
   \begin{itemize}
@@ -298,23 +299,24 @@ We found it when CoDeepNEAT reported 87.68\% for a checkpoint that our own evalu
 \begin{table}[H]
 \centering\small
 \resizebox{\linewidth}{!}{%
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
- & CIFAR-10 & CIFAR-10 strong & CIFAR-100 & ImageNet-100 & CIFAR-100 res+GAP\\
+ & \multicolumn{3}{c}{CIFAR-10} & CIFAR-100 & ImageNet-100 & CIFAR-100\\
+ & Colab pilot & small & strong & & & res+GAP\\
 \midrule
-generations & 12 & \B{80} & 12 & 10 & 12\\
-blueprint / module population & 20 / 50 & 25 / 80 & 20 / 50 & 10 / 20 & 20 / 50\\
-evaluations $\times$ epochs per blueprint & $2\times3$ & \B{$4\times12$} & $2\times3$ & $2\times3$ & $2\times$\B{10}\\
-batch / conv channels & 128 / 32--256 & 256 / 64--512 & 128 / 32--256 & 128 / 32--128 & 128 / 32--\B{384}\\
-module species & 4 & 6 & 4 & 4 & 4\\
-aggregation & concat & concat & concat & concat & \B{residual sum}\\
-classifier head & flatten+linear & flatten+linear & flatten+linear & flatten+linear & \B{GAP+linear}\\
-add-node / add-conn.\ rate (bp / module) & default & 0.16, 0.12 / 0.1 & default & default & 0.3 / 0.25\\
-CoDeepNEAT full train of top 3 & 60 ep & 150 ep, fm 1 and 3 & 60 ep & 40 ep & 60 ep\\
-wall-clock & 1.7\,h (3 GPUs) & about 2 days (2 GPUs) & 1.7\,h & 2.4\,h & 12.8\,h\\
+generations & 12 & 12 & \B{80} & 12 & 10 & 12\\
+blueprint / module population & 20 / 50 & 20 / 50 & 25 / 80 & 20 / 50 & 10 / 20 & 20 / 50\\
+evaluations $\times$ epochs per blueprint & $1\times2$ & $2\times3$ & \B{$4\times12$} & $2\times3$ & $2\times3$ & $2\times$\B{10}\\
+batch / conv channels & 128 / 32--256 & 128 / 32--256 & 256 / 64--512 & 128 / 32--256 & 128 / 32--128 & 128 / 32--\B{384}\\
+module species & 4 & 4 & 6 & 4 & 4 & 4\\
+aggregation & concat & concat & concat & concat & concat & \B{residual sum}\\
+classifier head & flatten+linear & flatten+linear & flatten+linear & flatten+linear & flatten+linear & \B{GAP+linear}\\
+add-node / add-conn.\ rate (bp / module) & 0.16, 0.12 / 0.1 & default & 0.16, 0.12 / 0.1 & default & default & 0.3 / 0.25\\
+CoDeepNEAT full train & top 1, 60 ep & top 3, 60 ep & top 3, 150 ep, fm 1 and 3 & top 3, 60 ep & top 3, 40 ep & top 3, 60 ep\\
+hardware, wall-clock & 1 T4 (Colab) & 3 Ada, 1.7\,h & 2 Ada, about 2 days & 3 Ada, 1.7\,h & 3 Ada, 2.4\,h & 3 Ada, 12.8\,h\\
 \bottomrule
 \end{tabular}}
-\caption{Search configurations (\texttt{CoDeepNEAT/configuration/configs/*.json}; the strong CIFAR-10 search is \texttt{ada\_cifar10\_strong}). ``fm'' is CoDeepNEAT's feature multiplier, which rebuilds the same genotype with every channel count scaled so that the parameter count grows by that factor.}
+\caption{Search configurations (\texttt{CoDeepNEAT/configuration/configs/*.json}; the CIFAR-10 searches are \texttt{colab\_baseline}, \texttt{venom\_cifar10} and \texttt{ada\_cifar10\_strong}). ``fm'' is CoDeepNEAT's feature multiplier, which rebuilds the same genotype with every channel count scaled so that the parameter count grows by that factor.}
 \label{tab:search}
 \end{table}
 
@@ -455,7 +457,7 @@ evolved (orig.) & magnitude & bp499 & 5.49M & 69.57 & 69.29 & 66.84 & 63.42 & 56
 
 \finding{V:N:M works on evolved CNNs.}{2:4 costs 0.24--1.05\,pt. 2:8 costs 2.3--4\,pt with magnitude pruning and 1.6--2.5\,pt with gradual OBS. 2:16 costs 5.9--10.6\,pt with magnitude pruning and 4.4--8.4\,pt with gradual OBS, for 8$\times$ fewer MACs. The degradation is smooth, with no cliff until 2:32 under magnitude pruning.}
 
-\subsection{Stored size: why the search space mattered}
+\subsection{Stored size: why the search space mattered}\label{sec:size}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.78\linewidth]{model_size.pdf}
@@ -533,9 +535,16 @@ $V$ also changes \emph{compression}, and here evolved networks behave differentl
 \end{figure}
 
 \subsection{CIFAR-10: the strong search and its winner}\label{sec:c10}
-Our own CIFAR-10 search (12 generations, 3-epoch evaluations) was short.
-A second, much longer CIFAR-10 search was run on the same machine (\texttt{ada\_cifar10\_strong}, Table~\ref{tab:search}): 80 generations, 4 evaluations of 12 epochs per blueprint, wider channel range, followed by CoDeepNEAT's 150-epoch full train of the top 3 at feature multiplier 1 and 3.
-We take its winner through our whole pipeline.
+The CIFAR-10 work was done in two steps (Table~\ref{tab:search}).
+A \B{Colab pilot} (\texttt{colab\_baseline}: 12 generations on a T4, one 2-epoch evaluation per blueprint) produced blueprint 608.
+The \B{strong search} (\texttt{ada\_cifar10\_strong}) then ran 80 generations on the Ada machine with 4 evaluations of 12 epochs per blueprint and a wider channel range, followed by CoDeepNEAT's 150-epoch full train of the top 3 at feature multiplier 1 and 3.
+We take its winner through our whole pipeline. (A third, short CIFAR-10 search of our own, \texttt{venom\_cifar10}, is in Appendix~\ref{app:early}.)
+
+\paragraph{Colab pilot (bp608).}
+Its full train reached 82.1\%$^{c}$ (CoDeepNEAT reported 83.16\%); the saved checkpoint scores 81.98\% with the fixed evaluator.
+It shows the head problem of Section~\ref{sec:size} in its extreme form: of its 11.85M parameters (47.4\,MB), the convolutions hold only \B{2.26\,MB (4.8\%)}; the rest is the flatten+linear head.
+Zero-shot V:N:M at $V{=}8$ gives 69.55 / 30.77 / 11.47\% at 2:4 / 2:8 / 2:16 ($3.2/6.4/12.7\times$ conv compression), but even 2:16 shrinks the whole model by only $1.05\times$.
+The strong search's winner does not have this problem.
 
 \paragraph{Search and winner.}
 The best-of-generation fitness rises from 71\% to about 85\% over the 80 generations (Fig.~\ref{fig:search}, right).
@@ -780,7 +789,7 @@ max compression, best accuracy & $V{=}8$, 2:32, gradual OBS & 81.55 & $25.3\time
   \end{itemize}
 \item \textbf{The NAS search space decides whether V:N:M pays off.}
   \begin{itemize}
-  \item The default CoDeepNEAT space leaves 34--77\% of the bytes in an unprunable flatten+linear head, which caps whole-model compression at about $1.3$--$2\times$.
+  \item The default CoDeepNEAT space leaves 34--77\% of the bytes in an unprunable flatten+linear head (95\% for the CIFAR-10 Colab pilot), which caps whole-model compression at about $1.05$--$2\times$.
   \item Residual-sum aggregation plus GAP moves 99\%+ of the bytes into convs, giving $24\times$ whole-model compression. It also raised dense accuracy by 4\,pt.
   \item Searching for sparse deployment needs a sparsity-friendly space, not just a better pruner.
   \end{itemize}
@@ -943,10 +952,12 @@ ResNet-56 (w32) & 3.42M & 78.08 & 77.20 & 74.40 & 70.19 & 54.08\\
 \section{Earlier runs on under-trained weights}\label{app:early}
 \begin{table}[H]
 \centering\small
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lllrr|rrrr}
 \toprule
 dataset & weights / fine-tune & model & params & dense & 2:4 & 2:8 & 2:16 & 2:32\\
 \midrule
+CIFAR-10 & Colab pilot, CoDeepNEAT 60 ep / none (zero-shot) & bp608 & 11.85M & 81.98 & 69.55 & 30.77 & 11.47 & --\\
 CIFAR-10$^{c}$ & CoDeepNEAT 60 ep / 8 ep & bp495 & 1.91M & 80.60 & 80.28 & 79.03 & 71.68 & 34.62\\
 CIFAR-10$^{c}$ & CoDeepNEAT 60 ep / 8 ep & bp671 & 0.57M & 79.73 & 79.75 & 73.15 & 53.92 & 39.16\\
 CIFAR-10$^{c}$ & CoDeepNEAT 60 ep / 8 ep & bp546 & 2.84M & 78.26 & 77.54 & 71.88 & 47.72 & 31.48\\
@@ -959,8 +970,8 @@ CIFAR-100 & recipe v1, 200 ep / 30 ep KD & bp499 & 5.49M & 67.06 & 67.00 & 64.90
 ImageNet-100$^{c}$ & CoDeepNEAT 40 ep / 3 ep & bp230 & 0.40M & 28.89 & 28.77 & 15.38 & 5.94 & 3.34\\
 ImageNet-100$^{c}$ & CoDeepNEAT 40 ep / 3 ep & bp254 & 0.40M & 27.74 & 26.56 & 16.35 & 5.74 & 2.55\\
 \bottomrule
-\end{tabular}
-\caption{Magnitude pruning, best over $V$, on weights from CoDeepNEAT's own training with its short fine-tune (CIFAR-10: our 12-generation search). $^{c}$\,Corrected for the evaluator bug (Section~\ref{sec:evalbug}). A third ImageNet-100 model from this stage (bp22) had a broken checkpoint and is omitted. Even on these weak models, 2:4 is near-lossless.}
+\end{tabular}}
+\caption{Magnitude pruning, best over $V$, on weights from CoDeepNEAT's own training with its short fine-tune (CIFAR-10: the Colab pilot, re-scored with the fixed evaluator, and our 12-generation search). $^{c}$\,Corrected for the evaluator bug (Section~\ref{sec:evalbug}). A third ImageNet-100 model from this stage (bp22) had a broken checkpoint and is omitted. Even on these weak models, 2:4 is near-lossless.}
 \end{table}
 
 \section{Changes made to CoDeepNEAT}
@@ -970,7 +981,7 @@ ImageNet-100$^{c}$ & CoDeepNEAT 40 ep / 3 ep & bp254 & 0.40M & 27.74 & 26.56 & 1
 \item \texttt{conv\_homogeniser.py}: residual-sum aggregation (identity for the widest input, $1{\times}1$ projection for the others).
 \item \texttt{conv\_linear\_homogeniser.py}, \texttt{reshape.py}: \texttt{.reshape} for channels-last tensors.
 \item \texttt{data\_loader.py}: CIFAR-100 and ImageNet-100 loaders, plus the \texttt{image\_size} option.
-\item \texttt{phenotype\_evaluator.py}, \texttt{generation.py}: drop blueprints whose classifier would be too large, instead of crashing.
+\item \texttt{phenotype\_evaluator.py}, \texttt{generation.py}: drop blueprints whose classifier would be too large, instead of crashing; build networks on the CPU and score a blueprint 0 when its training runs out of GPU memory (from the CIFAR-10 search).
 \item \texttt{augmentations/*}: \texttt{imgaug} compatibility with current NumPy.
 \item \texttt{evaluator.py}: \texttt{test\_nn} counts every sample once (Section~\ref{sec:evalbug}).
 \end{itemize}

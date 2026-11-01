@@ -3,8 +3,8 @@ CoDeepNEAT/data/Datasets/
 external/
 
 # Logs and scratch
-logs/
-tmp/
+/logs/
+/tmp/
 *.log
 nohup.out
 
@@ -25,7 +25,9 @@ report/diagrams/*.aux
 
 # Large regenerable artefacts
 CoDeepNEAT/runs/**/*_layers.pt
-CoDeepNEAT/runs/**/graphs/
+
+# keep CoDeepNEAT's own run logs (search / full-train records)
+!CoDeepNEAT/runs/**/*.log
 
 # Model weights (*.pt, *.model) and generation pickles are tracked with Git LFS (.gitattributes)
 

@@ -1,0 +1,68 @@
+// phenotype
+digraph best_g63_blueprint_i5974_phenotype {
+	"0_0" [label="Conv2d(3, 91, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+<function relu6 at 0x7d3a1610e950>
+'out features: 91'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(91, 317, kernel_size=(3, 3), stride=(1, 1))
+MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+Dropout2d(p=0.35689724842066745, inplace=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 317'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"5974_agg (1)" [label="5974_agg (1)
+" fillcolor=violet style=filled]
+	"0_1" -> "5974_agg (1)"
+	"2_0" [label="2_0
+Conv2d(317, 91, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+<function relu6 at 0x7d3a1610e950>
+'out features: 91'" fillcolor=yellow style=filled]
+	"0_1" -> "2_0"
+	"2_1" [label="2_1
+Conv2d(91, 317, kernel_size=(3, 3), stride=(1, 1))
+MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+Dropout2d(p=0.35689724842066745, inplace=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 317'" fillcolor=yellow style=filled]
+	"2_0" -> "2_1"
+	"5974_agg (1)" [label="5974_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "5974_agg (1)"
+	"6_0" [label="6_0
+Conv2d(317, 112, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(112, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 112'" fillcolor=yellow style=filled]
+	"2_1" -> "6_0"
+	"6_8" [label="6_8
+Conv2d(112, 479, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.6685736436041592, inplace=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 479'" fillcolor=yellow style=filled]
+	"6_0" -> "6_8"
+	"6_1" [label="6_1
+Identity()" fillcolor=white style=filled]
+	"6_8" -> "6_1"
+	"5974_agg (1)" [label="5974_agg (1)
+" fillcolor=violet style=filled]
+	"6_1" -> "5974_agg (1)"
+	"1_0" [label="1_0
+Conv2d(371, 112, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(112, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 112'" fillcolor=yellow style=filled]
+	"5974_agg (1)" -> "1_0"
+	"1_8" [label="1_8
+Conv2d(112, 479, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.6685736436041592, inplace=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 479'" fillcolor=yellow style=filled]
+	"1_0" -> "1_8"
+	"1_1" [label="1_1
+Identity()" fillcolor=white style=filled]
+	"1_8" -> "1_1"
+}

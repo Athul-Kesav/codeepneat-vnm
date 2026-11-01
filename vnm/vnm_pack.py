@@ -97,8 +97,8 @@ def pack_vnm_2d(w: torch.Tensor, v: int, m: int, n: int = 2) -> Dict[str, torch.
 
 def unpack_vnm_2d(packed: Dict[str, torch.Tensor]) -> torch.Tensor:
     values = packed["values"]
-    m_idx = packed["m_idx"].long()
-    col_loc = packed["col_loc"].long()
+    m_idx = packed["m_idx"].long().to(values.device)
+    col_loc = packed["col_loc"].long().to(values.device)
     r, k, v, m, _ = packed["shape"].tolist()
     r_pad, k_pad = packed["padded"].tolist()
     nb = k_pad // m

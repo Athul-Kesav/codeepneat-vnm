@@ -92,7 +92,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--config", default="colab_baseline")
     p.add_argument("--run", default="colab_baseline")
-    p.add_argument("--vs", default="128", help="comma-separated V values")
+    p.add_argument("--vs", "--v", dest="vs", default="128", help="comma-separated V values")
     p.add_argument("--ms", default="4,8,16")
     p.add_argument("--out", default="vnm", help="results folder name under runs/<run>/")
     p.add_argument("--layers-for-v", default="64,128", help="save layer files (for Spatha timing) only for these V")
@@ -124,8 +124,13 @@ def main():
     layer_vs = {int(x) for x in args.layers_for_v.split(",") if x}
 
     if args.model:  # one checkpoint, possibly at feature multiplier > 1
-        bp_id, fm, rank = map(int, re.search(r"bp-(\d+)_fm-(\d+)-best-(\d+)", os.path.basename(args.model)).groups())
+        parsed = re.search(r"bp-(\d+)_fm-(\d+)(?:-best-(\d+))?", os.path.basename(args.model))
+        if not parsed:
+            raise SystemExit(f"expected a CoDeepNEAT checkpoint name bp-<id>_fm-<k>[-best-<r>].model, got {args.model}")
+        bp_id, fm, rank = int(parsed.group(1)), int(parsed.group(2)), int(parsed.group(3) or 1)
         found = [(b, g) for b, g in run.get_most_accurate_blueprints(300) if b.id == bp_id]
+        if not found:
+            raise SystemExit(f"blueprint {bp_id} is not in run {args.run}")
         targets = [(rank, *found[0], fm, args.model)]
     else:
         targets = [(rank, bp, g, 1, os.path.join("runs", args.run, "fully_trained_models", f"bp-{bp.id}_fm-1-best-{rank}.model"))

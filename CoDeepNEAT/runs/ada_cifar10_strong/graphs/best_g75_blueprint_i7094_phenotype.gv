@@ -1,0 +1,71 @@
+// phenotype
+digraph best_g75_blueprint_i7094_phenotype {
+	"0_0" [label="Conv2d(3, 151, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.2744173697969472, inplace=False)
+<function relu6 at 0x756ead512950>
+'out features: 151'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"0_0" -> "0_1"
+	"7094_agg (1)" [label="7094_agg (1)
+" fillcolor=violet style=filled]
+	"0_1" -> "7094_agg (1)"
+	"2_0" [label="2_0
+Conv2d(151, 151, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.2744173697969472, inplace=False)
+<function relu6 at 0x756ead512950>
+'out features: 151'" fillcolor=yellow style=filled]
+	"0_1" -> "2_0"
+	"10_0" [label="10_0
+Conv2d(151, 151, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.2744173697969472, inplace=False)
+<function relu6 at 0x756ead512950>
+'out features: 151'" fillcolor=yellow style=filled]
+	"0_1" -> "10_0"
+	"10_1" [label="10_1
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"10_0" -> "10_1"
+	"7094_agg (4)" [label="7094_agg (4)
+" fillcolor=violet style=filled]
+	"10_1" -> "7094_agg (4)"
+	"4_0" [label="4_0
+Conv2d(302, 151, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.2744173697969472, inplace=False)
+<function relu6 at 0x756ead512950>
+'out features: 151'" fillcolor=yellow style=filled]
+	"7094_agg (4)" -> "4_0"
+	"4_1" [label="4_1
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"4_0" -> "4_1"
+	"7094_agg (1)" [label="7094_agg (1)
+" fillcolor=violet style=filled]
+	"4_1" -> "7094_agg (1)"
+	"1_0" [label="1_0
+Conv2d(453, 151, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.2744173697969472, inplace=False)
+<function relu6 at 0x756ead512950>
+'out features: 151'" fillcolor=yellow style=filled]
+	"7094_agg (1)" -> "1_0"
+	"1_1" [label="1_1
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"1_0" -> "1_1"
+	"2_1" [label="2_1
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"2_0" -> "2_1"
+	"7094_agg (1)" [label="7094_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "7094_agg (1)"
+	"7094_agg (4)" [label="7094_agg (4)
+" fillcolor=violet style=filled]
+	"2_1" -> "7094_agg (4)"
+}

@@ -1,0 +1,46 @@
+// phenotype
+digraph best_g53_blueprint_i5017_phenotype {
+	"0_0" [label="Conv2d(3, 147, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+BatchNorm2d(147, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.07731583694561661, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 147'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(147, 311, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+BatchNorm2d(311, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7d3a1610e950>
+'out features: 311'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"5017_agg (1)" [label="5017_agg (1)
+" fillcolor=violet style=filled]
+	"0_1" -> "5017_agg (1)"
+	"4_0" [label="4_0
+Conv2d(311, 147, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+BatchNorm2d(147, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.07731583694561661, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 147'" fillcolor=yellow style=filled]
+	"0_1" -> "4_0"
+	"4_1" [label="4_1
+Conv2d(147, 311, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+BatchNorm2d(311, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7d3a1610e950>
+'out features: 311'" fillcolor=yellow style=filled]
+	"4_0" -> "4_1"
+	"5017_agg (1)" [label="5017_agg (1)
+" fillcolor=violet style=filled]
+	"4_1" -> "5017_agg (1)"
+	"1_0" [label="1_0
+Conv2d(622, 270, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(270, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.38511348136557616, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 270'" fillcolor=yellow style=filled]
+	"5017_agg (1)" -> "1_0"
+	"1_1" [label="1_1
+BatchNorm2d(270, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"1_0" -> "1_1"
+}

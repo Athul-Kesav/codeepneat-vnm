@@ -1,0 +1,61 @@
+// phenotype
+digraph best_g5_blueprint_i362_phenotype {
+	"0_0" [label="Conv2d(3, 162, kernel_size=(7, 7), stride=(2, 2))
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 162'" fillcolor=yellow style=filled]
+	"0_2" [label="0_2
+Conv2d(162, 137, kernel_size=(5, 5), stride=(2, 2))
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 137'" fillcolor=yellow style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+Reshape()
+Linear(in_features=3425, out_features=200, bias=True)
+BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 200'" fillcolor=lightblue style=filled]
+	"0_2" -> "0_1"
+	"362_agg (1)" [label="362_agg (1)
+" fillcolor=violet style=filled]
+	"0_1" -> "362_agg (1)"
+	"2_0" [label="2_0
+Reshape()
+Conv2d(200, 162, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 162'" fillcolor=yellow style=filled]
+	"0_1" -> "2_0"
+	"2_2" [label="2_2
+Conv2d(162, 137, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2))
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 137'" fillcolor=yellow style=filled]
+	"2_0" -> "2_2"
+	"2_1" [label="2_1
+Reshape()
+Linear(in_features=137, out_features=200, bias=True)
+BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 200'" fillcolor=lightblue style=filled]
+	"2_2" -> "2_1"
+	"362_agg (1)" [label="362_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "362_agg (1)"
+	"1_0" [label="1_0
+Reshape()
+Conv2d(200, 184, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+BatchNorm2d(184, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 184'" fillcolor=yellow style=filled]
+	"362_agg (1)" -> "1_0"
+	"1_1" [label="1_1
+Reshape()
+Linear(in_features=184, out_features=253, bias=True)
+BatchNorm1d(253, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 253'" fillcolor=lightblue style=filled]
+	"1_0" -> "1_1"
+}

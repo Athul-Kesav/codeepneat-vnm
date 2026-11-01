@@ -1,0 +1,55 @@
+// phenotype
+digraph best_g45_blueprint_i4252_phenotype {
+	"0_0" [label="BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_0" -> "0_agg (1)"
+	"0_2" [label="0_2
+Reshape()
+Linear(in_features=3072, out_features=185, bias=True)
+BatchNorm1d(185, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 185'" fillcolor=lightblue style=filled]
+	"0_0" -> "0_2"
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_2" -> "0_agg (1)"
+	"0_1" [label="0_1
+Conv2d(4, 511, kernel_size=(7, 7), stride=(2, 2))
+BatchNorm2d(511, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu6 at 0x7d3a1610e950>
+'out features: 511'" fillcolor=yellow style=filled]
+	"0_agg (1)" -> "0_1"
+	"2_0" [label="2_0
+Conv2d(511, 177, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+<function relu at 0x7d3a1610e7a0>
+'out features: 177'" fillcolor=yellow style=filled]
+	"0_1" -> "2_0"
+	"2_1" [label="2_1
+Dropout(p=0.03891331849638998, inplace=False)" fillcolor=green style=filled]
+	"2_0" -> "2_1"
+	"1_0" [label="1_0
+BatchNorm2d(177, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"2_1" -> "1_0"
+	"1_agg (1)" [label="1_agg (1)
+" fillcolor=violet style=filled]
+	"1_0" -> "1_agg (1)"
+	"1_2" [label="1_2
+Reshape()
+Linear(in_features=8673, out_features=185, bias=True)
+BatchNorm1d(185, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 185'" fillcolor=lightblue style=filled]
+	"1_0" -> "1_2"
+	"1_agg (1)" [label="1_agg (1)
+" fillcolor=violet style=filled]
+	"1_2" -> "1_agg (1)"
+	"1_1" [label="1_1
+Conv2d(181, 511, kernel_size=(7, 7), stride=(2, 2))
+BatchNorm2d(511, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu6 at 0x7d3a1610e950>
+'out features: 511'" fillcolor=yellow style=filled]
+	"1_agg (1)" -> "1_1"
+}

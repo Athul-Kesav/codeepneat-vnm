@@ -1,0 +1,61 @@
+digraph best_g78_blueprint_i7382_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 7306" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 7306" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 8
+Gene id: 2
+Module: 7356" fillcolor=yellow style=filled]
+	"blueprint_v 3" [label="Species: 0
+Gene id: 3
+Module: 7306" fillcolor=yellow style=filled]
+	"blueprint_v 4" [label="Species: 0
+Gene id: 4
+Module: 7306" fillcolor=yellow style=filled]
+	"blueprint_v 35" [label="Species: 8
+Gene id: 35
+Module: 7356" fillcolor=yellow style=filled]
+	"blueprint_v 8" [label="Species: 8
+Gene id: 8
+Module: 7356" fillcolor=yellow style=filled]
+	"blueprint_v 41" [label="Species: 8
+Gene id: 41
+Module: 7356" fillcolor=yellow style=filled]
+	"blueprint_v 14" [label="Species: 8
+Gene id: 14
+Module: 7356" fillcolor=yellow style=filled]
+	"blueprint_v 2" -> "blueprint_v 1"
+	"blueprint_v 0" -> "blueprint_v 3"
+	"blueprint_v 3" -> "blueprint_v 2"
+	"blueprint_v 4" -> "blueprint_v 1"
+	"blueprint_v 8" -> "blueprint_v 41"
+	"blueprint_v 41" -> "blueprint_v 35"
+	"blueprint_v 2" -> "blueprint_v 8"
+	"blueprint_v 8" -> "blueprint_v 4"
+	"blueprint_v 14" -> "blueprint_v 4"
+	"blueprint_v 2" -> "blueprint_v 14"
+	"blueprint_v 35" -> "blueprint_v 4"
+	label=""
+	subgraph cluster_genome_i7306 {
+		"module_0_7306_v 8" [fillcolor=cyan style=filled]
+		"module_0_7306_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_7306_v 35" [fillcolor=cyan style=filled]
+		"module_0_7306_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_7306_v 8" -> "module_0_7306_v 1"
+		"module_0_7306_v 0" -> "module_0_7306_v 35"
+		"module_0_7306_v 35" -> "module_0_7306_v 8"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 7306"
+	}
+	subgraph cluster_genome_i7356 {
+		"module_8_7356_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_8_7356_v 1" [label=Identity fillcolor=cyan shape=Msquare style=filled]
+		"module_8_7356_v 0" -> "module_8_7356_v 1"
+		color=lightgrey style=filled
+		label="Species: 8
+Module: 7356"
+	}
+}

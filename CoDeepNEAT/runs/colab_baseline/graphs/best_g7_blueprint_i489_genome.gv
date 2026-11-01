@@ -1,0 +1,33 @@
+digraph best_g7_blueprint_i489_genome {
+	"blueprint_v 0" [label="Species: 2
+Gene id: 0
+Module: 435" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 433" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 2
+Gene id: 2
+Module: 435" fillcolor=yellow style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	"blueprint_v 0" -> "blueprint_v 2"
+	"blueprint_v 2" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i435 {
+		"module_2_435_v 0" [label=Identity fillcolor=cyan shape=Mdiamond style=filled]
+		"module_2_435_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_2_435_v 2" [fillcolor=cyan style=filled]
+		"module_2_435_v 0" -> "module_2_435_v 2"
+		"module_2_435_v 2" -> "module_2_435_v 1"
+		color=lightgrey style=filled
+		label="Species: 2
+Module: 435"
+	}
+	subgraph cluster_genome_i433 {
+		"module_0_433_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_433_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_433_v 0" -> "module_0_433_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 433"
+	}
+}

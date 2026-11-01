@@ -1,0 +1,57 @@
+// phenotype
+digraph best_g73_blueprint_i6913_phenotype {
+	"0_0" [label="Conv2d(3, 151, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x756ead5127a0>
+'out features: 151'" fillcolor=yellow style=filled]
+	"0_2" [label="0_2
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+Identity()" fillcolor=white style=filled]
+	"0_2" -> "0_1"
+	"3_0" [label="3_0
+Conv2d(151, 151, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x756ead5127a0>
+'out features: 151'" fillcolor=yellow style=filled]
+	"0_1" -> "3_0"
+	"3_2" [label="3_2
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"3_0" -> "3_2"
+	"3_1" [label="3_1
+Identity()" fillcolor=white style=filled]
+	"3_2" -> "3_1"
+	"2_0" [label="2_0
+Conv2d(151, 151, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x756ead5127a0>
+'out features: 151'" fillcolor=yellow style=filled]
+	"3_1" -> "2_0"
+	"2_2" [label="2_2
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"2_0" -> "2_2"
+	"2_1" [label="2_1
+Identity()" fillcolor=white style=filled]
+	"2_2" -> "2_1"
+	"1_0" [label="1_0
+Conv2d(151, 151, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x756ead5127a0>
+'out features: 151'" fillcolor=yellow style=filled]
+	"2_1" -> "1_0"
+	"1_2" [label="1_2
+BatchNorm2d(151, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"1_0" -> "1_2"
+	"1_1" [label="1_1
+Identity()" fillcolor=white style=filled]
+	"1_2" -> "1_1"
+}

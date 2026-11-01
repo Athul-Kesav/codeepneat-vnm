@@ -1,0 +1,31 @@
+// phenotype
+digraph best_g8_blueprint_i555_phenotype {
+	"0_0" [label="BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"0_2" [label="0_2
+Conv2d(3, 134, kernel_size=(7, 7), stride=(1, 1))
+BatchNorm2d(134, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7b1c5e3a3c40>
+'out features: 134'" fillcolor=yellow style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+Conv2d(134, 138, kernel_size=(1, 1), stride=(1, 1))
+BatchNorm2d(138, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 138'" fillcolor=yellow style=filled]
+	"0_2" -> "0_1"
+	"1_0" [label="1_0
+Conv2d(138, 184, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+BatchNorm2d(184, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 184'" fillcolor=yellow style=filled]
+	"0_1" -> "1_0"
+	"1_1" [label="1_1
+Reshape()
+Linear(in_features=36064, out_features=253, bias=True)
+BatchNorm1d(253, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 253'" fillcolor=lightblue style=filled]
+	"1_0" -> "1_1"
+}

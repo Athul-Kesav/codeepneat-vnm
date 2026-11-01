@@ -1,0 +1,28 @@
+digraph best_g9_blueprint_i905_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 841" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 16
+Gene id: 1
+Module: 890" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i841 {
+		"module_0_841_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_841_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_841_v 2" [fillcolor=cyan style=filled]
+		"module_0_841_v 0" -> "module_0_841_v 2"
+		"module_0_841_v 2" -> "module_0_841_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 841"
+	}
+	subgraph cluster_genome_i890 {
+		"module_16_890_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_16_890_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_16_890_v 0" -> "module_16_890_v 1"
+		color=lightgrey style=filled
+		label="Species: 16
+Module: 890"
+	}
+}

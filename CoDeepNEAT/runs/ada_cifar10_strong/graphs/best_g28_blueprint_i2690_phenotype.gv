@@ -1,0 +1,115 @@
+// phenotype
+digraph best_g28_blueprint_i2690_phenotype {
+	"0_0" [label="Conv2d(3, 142, kernel_size=(3, 3), stride=(2, 2))
+BatchNorm2d(142, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7f65f750a7a0>
+'out features: 142'" fillcolor=yellow style=filled]
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_0" -> "0_agg (1)"
+	"0_4" [label="0_4
+Reshape()
+Linear(in_features=31950, out_features=896, bias=True)
+<function relu6 at 0x7f65f750a950>
+'out features: 896'" fillcolor=lightblue style=filled]
+	"0_0" -> "0_4"
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_4" -> "0_agg (1)"
+	"0_26" [label="0_26
+Linear(in_features=896, out_features=265, bias=True)
+<built-in method sigmoid of type object at 0x7f66cb590ec0>
+'out features: 265'" fillcolor=lightblue style=filled]
+	"0_4" -> "0_26"
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_26" -> "0_agg (1)"
+	"0_1" [label="0_1
+BatchNorm2d(146, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"0_agg (1)" -> "0_1"
+	"2_0" [label="2_0
+Conv2d(146, 161, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 161'" fillcolor=yellow style=filled]
+	"0_1" -> "2_0"
+	"2_2" [label="2_2
+Conv2d(161, 242, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(242, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 242'" fillcolor=yellow style=filled]
+	"2_0" -> "2_2"
+	"2_1" [label="2_1
+BatchNorm2d(242, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"2_2" -> "2_1"
+	"2690_agg (1)" [label="2690_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "2690_agg (1)"
+	"4_0" [label="4_0
+Conv2d(242, 225, kernel_size=(5, 5), stride=(1, 1))
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 225'" fillcolor=yellow style=filled]
+	"2_1" -> "4_0"
+	"4_agg (1)" [label="4_agg (1)
+" fillcolor=violet style=filled]
+	"4_0" -> "4_agg (1)"
+	"4_2" [label="4_2
+Conv2d(225, 376, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+Dropout2d(p=0.3140170808141658, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 376'" fillcolor=yellow style=filled]
+	"4_0" -> "4_2"
+	"4_3" [label="4_3
+Conv2d(376, 114, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+<function relu at 0x7f65f750a7a0>
+'out features: 114'" fillcolor=yellow style=filled]
+	"4_2" -> "4_3"
+	"4_agg (1)" [label="4_agg (1)
+" fillcolor=violet style=filled]
+	"4_3" -> "4_agg (1)"
+	"4_1" [label="4_1
+Reshape()
+Linear(in_features=3051, out_features=865, bias=True)
+Dropout(p=0.20989323242230343, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 865'" fillcolor=lightblue style=filled]
+	"4_agg (1)" -> "4_1"
+	"2690_agg (1)" [label="2690_agg (1)
+" fillcolor=violet style=filled]
+	"4_1" -> "2690_agg (1)"
+	"7_0" [label="7_0
+Identity()" fillcolor=white style=filled]
+	"4_1" -> "7_0"
+	"7_1" [label="7_1
+Reshape()
+Conv2d(865, 133, kernel_size=(1, 1), stride=(1, 1))
+BatchNorm2d(133, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7f65f750a950>
+'out features: 133'" fillcolor=yellow style=filled]
+	"7_0" -> "7_1"
+	"2690_agg (1)" [label="2690_agg (1)
+" fillcolor=violet style=filled]
+	"7_1" -> "2690_agg (1)"
+	"1_0" [label="1_0
+Conv2d(471, 161, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 161'" fillcolor=yellow style=filled]
+	"2690_agg (1)" -> "1_0"
+	"1_2" [label="1_2
+Conv2d(161, 242, kernel_size=(3, 3), stride=(1, 1))
+BatchNorm2d(242, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 242'" fillcolor=yellow style=filled]
+	"1_0" -> "1_2"
+	"1_1" [label="1_1
+BatchNorm2d(242, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"1_2" -> "1_1"
+}

@@ -1,0 +1,43 @@
+digraph best_g5_blueprint_i547_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 484" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 5
+Gene id: 1
+Module: 503" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 13
+Gene id: 2
+Module: 426" fillcolor=yellow style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	"blueprint_v 0" -> "blueprint_v 2"
+	"blueprint_v 2" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i484 {
+		"module_0_484_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_484_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_484_v 0" -> "module_0_484_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 484"
+	}
+	subgraph cluster_genome_i503 {
+		"module_5_503_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_5_503_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_5_503_v 2" [fillcolor=cyan style=filled]
+		"module_5_503_v 5" [fillcolor=cyan style=filled]
+		"module_5_503_v 0" -> "module_5_503_v 2"
+		"module_5_503_v 2" -> "module_5_503_v 5"
+		"module_5_503_v 5" -> "module_5_503_v 1"
+		color=lightgrey style=filled
+		label="Species: 5
+Module: 503"
+	}
+	subgraph cluster_genome_i426 {
+		"module_13_426_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_13_426_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_13_426_v 0" -> "module_13_426_v 1"
+		color=lightgrey style=filled
+		label="Species: 13
+Module: 426"
+	}
+}

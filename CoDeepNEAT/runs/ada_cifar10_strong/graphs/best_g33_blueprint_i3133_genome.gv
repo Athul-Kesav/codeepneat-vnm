@@ -1,0 +1,41 @@
+digraph best_g33_blueprint_i3133_genome {
+	"blueprint_v 0" [label="Species: 20
+Gene id: 0
+Module: 3096" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 21
+Gene id: 1
+Module: 3120" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i3096 {
+		"module_20_3096_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_20_3096_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_20_3096_v 2" [fillcolor=cyan style=filled]
+		"module_20_3096_v 10" [fillcolor=cyan style=filled]
+		"module_20_3096_v 55" [fillcolor=cyan style=filled]
+		"module_20_3096_v 0" -> "module_20_3096_v 1"
+		"module_20_3096_v 0" -> "module_20_3096_v 2"
+		"module_20_3096_v 2" -> "module_20_3096_v 1"
+		"module_20_3096_v 10" -> "module_20_3096_v 1"
+		"module_20_3096_v 2" -> "module_20_3096_v 55"
+		"module_20_3096_v 55" -> "module_20_3096_v 10"
+		color=lightgrey style=filled
+		label="Species: 20
+Module: 3096"
+	}
+	subgraph cluster_genome_i3120 {
+		"module_21_3120_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_21_3120_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_21_3120_v 4" [fillcolor=cyan style=filled]
+		"module_21_3120_v 23" [fillcolor=cyan style=filled]
+		"module_21_3120_v 26" [fillcolor=cyan style=filled]
+		"module_21_3120_v 4" -> "module_21_3120_v 26"
+		"module_21_3120_v 26" -> "module_21_3120_v 1"
+		"module_21_3120_v 4" -> "module_21_3120_v 1"
+		"module_21_3120_v 0" -> "module_21_3120_v 23"
+		"module_21_3120_v 23" -> "module_21_3120_v 4"
+		color=lightgrey style=filled
+		label="Species: 21
+Module: 3120"
+	}
+}

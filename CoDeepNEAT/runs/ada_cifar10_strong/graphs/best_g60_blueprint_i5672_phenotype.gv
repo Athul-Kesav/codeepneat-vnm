@@ -1,0 +1,56 @@
+// phenotype
+digraph best_g60_blueprint_i5672_phenotype {
+	"0_0" [label="Conv2d(3, 100, kernel_size=(3, 3), stride=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.20256381480348046, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 100'" fillcolor=yellow style=filled]
+	"0_23" [label="0_23
+Conv2d(100, 293, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+BatchNorm2d(293, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 293'" fillcolor=yellow style=filled]
+	"0_0" -> "0_23"
+	"0_4" [label="0_4
+BatchNorm2d(293, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.2710207484750763, inplace=False)" fillcolor=green style=filled]
+	"0_23" -> "0_4"
+	"0_1" [label="0_1
+Reshape()
+Linear(in_features=23733, out_features=316, bias=True)
+BatchNorm1d(316, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.11508070691989863, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 316'" fillcolor=lightblue style=filled]
+	"0_4" -> "0_1"
+	"1_0" [label="1_0
+Reshape()
+Conv2d(316, 100, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.20256381480348046, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 100'" fillcolor=yellow style=filled]
+	"0_1" -> "1_0"
+	"1_23" [label="1_23
+Conv2d(100, 293, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+BatchNorm2d(293, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7d3a1610eb90>
+'out features: 293'" fillcolor=yellow style=filled]
+	"1_0" -> "1_23"
+	"1_4" [label="1_4
+BatchNorm2d(293, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.2710207484750763, inplace=False)" fillcolor=green style=filled]
+	"1_23" -> "1_4"
+	"1_1" [label="1_1
+Reshape()
+Linear(in_features=293, out_features=316, bias=True)
+BatchNorm1d(316, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.11508070691989863, inplace=False)
+<function relu at 0x7d3a1610e7a0>
+'out features: 316'" fillcolor=lightblue style=filled]
+	"1_4" -> "1_1"
+}

@@ -1,0 +1,65 @@
+// phenotype
+digraph best_g24_blueprint_i2311_phenotype {
+	"0_0" [label="Conv2d(3, 465, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 465'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(465, 197, kernel_size=(1, 1), stride=(1, 1))
+BatchNorm2d(197, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 197'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"2311_agg (4)" [label="2311_agg (4)
+" fillcolor=violet style=filled]
+	"0_1" -> "2311_agg (4)"
+	"10_0" [label="10_0
+Reshape()
+Linear(in_features=15957, out_features=364, bias=True)
+BatchNorm1d(364, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7f65f750a950>
+'out features: 364'" fillcolor=lightblue style=filled]
+	"0_1" -> "10_0"
+	"10_1" [label="10_1
+Reshape()
+Conv2d(364, 218, kernel_size=(7, 7), stride=(4, 4), padding=(3, 3))
+BatchNorm2d(218, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 218'" fillcolor=yellow style=filled]
+	"10_0" -> "10_1"
+	"2311_agg (4)" [label="2311_agg (4)
+" fillcolor=violet style=filled]
+	"10_1" -> "2311_agg (4)"
+	"4_0" [label="4_0
+Reshape()
+Linear(in_features=6640, out_features=364, bias=True)
+BatchNorm1d(364, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7f65f750a950>
+'out features: 364'" fillcolor=lightblue style=filled]
+	"2311_agg (4)" -> "4_0"
+	"4_1" [label="4_1
+Reshape()
+Conv2d(364, 218, kernel_size=(7, 7), stride=(4, 4), padding=(3, 3))
+BatchNorm2d(218, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 218'" fillcolor=yellow style=filled]
+	"4_0" -> "4_1"
+	"1_0" [label="1_0
+Conv2d(218, 465, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 465'" fillcolor=yellow style=filled]
+	"4_1" -> "1_0"
+	"1_1" [label="1_1
+Conv2d(465, 197, kernel_size=(1, 1), stride=(1, 1))
+BatchNorm2d(197, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 197'" fillcolor=yellow style=filled]
+	"1_0" -> "1_1"
+}

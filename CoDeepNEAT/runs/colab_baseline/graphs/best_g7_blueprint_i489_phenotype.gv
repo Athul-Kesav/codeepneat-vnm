@@ -1,0 +1,53 @@
+// phenotype
+digraph best_g7_blueprint_i489_phenotype {
+	"0_0" [label="Identity()" fillcolor=white style=filled]
+	"0_2" [label="0_2
+Conv2d(3, 137, kernel_size=(7, 7), stride=(1, 1))
+BatchNorm2d(137, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7b1c5e3a3c40>
+'out features: 137'" fillcolor=yellow style=filled]
+	"0_0" -> "0_2"
+	"0_1" [label="0_1
+Conv2d(137, 138, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(138, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 138'" fillcolor=yellow style=filled]
+	"0_2" -> "0_1"
+	"489_agg (1)" [label="489_agg (1)
+" fillcolor=violet style=filled]
+	"0_1" -> "489_agg (1)"
+	"2_0" [label="2_0
+Identity()" fillcolor=white style=filled]
+	"0_1" -> "2_0"
+	"2_2" [label="2_2
+Conv2d(138, 137, kernel_size=(7, 7), stride=(1, 1))
+BatchNorm2d(137, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu6 at 0x7b1c5e3a3c40>
+'out features: 137'" fillcolor=yellow style=filled]
+	"2_0" -> "2_2"
+	"2_1" [label="2_1
+Conv2d(137, 138, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(138, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 138'" fillcolor=yellow style=filled]
+	"2_2" -> "2_1"
+	"489_agg (1)" [label="489_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "489_agg (1)"
+	"1_0" [label="1_0
+Conv2d(276, 162, kernel_size=(3, 3), stride=(1, 1))
+<built-in method sigmoid of type object at 0x7b1c92ff1000>
+'out features: 162'" fillcolor=yellow style=filled]
+	"489_agg (1)" -> "1_0"
+	"1_1" [label="1_1
+Reshape()
+Linear(in_features=23328, out_features=253, bias=True)
+BatchNorm1d(253, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7b1c5e3a3a60>
+'out features: 253'" fillcolor=lightblue style=filled]
+	"1_0" -> "1_1"
+}

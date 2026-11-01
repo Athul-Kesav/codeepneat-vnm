@@ -1,0 +1,34 @@
+digraph best_g11_blueprint_i731_genome {
+	"blueprint_v 0" [label="Species: 2
+Gene id: 0
+Module: 696" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 678" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 2" [label="Species: 2
+Gene id: 2
+Module: 696" fillcolor=yellow style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	"blueprint_v 0" -> "blueprint_v 2"
+	"blueprint_v 2" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i696 {
+		"module_2_696_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_2_696_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_2_696_v 2" [fillcolor=cyan style=filled]
+		"module_2_696_v 0" -> "module_2_696_v 1"
+		"module_2_696_v 0" -> "module_2_696_v 2"
+		"module_2_696_v 2" -> "module_2_696_v 1"
+		color=lightgrey style=filled
+		label="Species: 2
+Module: 696"
+	}
+	subgraph cluster_genome_i678 {
+		"module_0_678_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_678_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_678_v 0" -> "module_0_678_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 678"
+	}
+}

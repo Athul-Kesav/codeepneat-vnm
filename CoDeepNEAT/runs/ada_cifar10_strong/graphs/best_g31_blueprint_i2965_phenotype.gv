@@ -1,0 +1,97 @@
+// phenotype
+digraph best_g31_blueprint_i2965_phenotype {
+	"0_0" [label="Conv2d(3, 509, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+BatchNorm2d(509, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout2d(p=0.15937907427335662, inplace=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 509'" fillcolor=yellow style=filled]
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_0" -> "0_agg (1)"
+	"0_4" [label="0_4
+Reshape()
+Linear(in_features=130304, out_features=210, bias=True)
+<function relu at 0x7f65f750a7a0>
+'out features: 210'" fillcolor=lightblue style=filled]
+	"0_0" -> "0_4"
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_4" -> "0_agg (1)"
+	"0_7" [label="0_7
+Linear(in_features=210, out_features=641, bias=True)
+BatchNorm1d(641, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<built-in method sigmoid of type object at 0x7f66cb590ec0>
+'out features: 641'" fillcolor=lightblue style=filled]
+	"0_4" -> "0_7"
+	"0_26" [label="0_26
+Linear(in_features=210, out_features=265, bias=True)
+Dropout(p=0.15, inplace=False)
+<built-in method sigmoid of type object at 0x7f66cb590ec0>
+'out features: 265'" fillcolor=lightblue style=filled]
+	"0_4" -> "0_26"
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_26" -> "0_agg (1)"
+	"0_1" [label="0_1
+Conv2d(513, 142, kernel_size=(5, 5), stride=(1, 1))
+BatchNorm2d(142, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 142'" fillcolor=yellow style=filled]
+	"0_agg (1)" -> "0_1"
+	"12_0" [label="12_0
+BatchNorm2d(142, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"0_1" -> "12_0"
+	"12_1" [label="12_1
+Reshape()
+Linear(in_features=6958, out_features=215, bias=True)
+BatchNorm1d(215, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 215'" fillcolor=lightblue style=filled]
+	"12_0" -> "12_1"
+	"2_0" [label="2_0
+BatchNorm1d(215, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)" fillcolor=green style=filled]
+	"12_1" -> "2_0"
+	"2_agg (1)" [label="2_agg (1)
+" fillcolor=violet style=filled]
+	"2_0" -> "2_agg (1)"
+	"2_2" [label="2_2
+Reshape()
+Conv2d(215, 376, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 376'" fillcolor=yellow style=filled]
+	"2_0" -> "2_2"
+	"2_6" [label="2_6
+BatchNorm2d(376, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"2_2" -> "2_6"
+	"2_3" [label="2_3
+Reshape()
+Linear(in_features=376, out_features=241, bias=True)
+BatchNorm1d(241, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)
+<built-in method sigmoid of type object at 0x7f66cb590ec0>
+'out features: 241'" fillcolor=lightblue style=filled]
+	"2_6" -> "2_3"
+	"2_agg (1)" [label="2_agg (1)
+" fillcolor=violet style=filled]
+	"2_3" -> "2_agg (1)"
+	"2_1" [label="2_1
+BatchNorm1d(456, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"2_agg (1)" -> "2_1"
+	"1_0" [label="1_0
+BatchNorm1d(456, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"2_1" -> "1_0"
+	"1_1" [label="1_1
+Linear(in_features=456, out_features=215, bias=True)
+BatchNorm1d(215, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout(p=0.15, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 215'" fillcolor=lightblue style=filled]
+	"1_0" -> "1_1"
+	"0_agg (1)" [label="0_agg (1)
+" fillcolor=violet style=filled]
+	"0_7" -> "0_agg (1)"
+}

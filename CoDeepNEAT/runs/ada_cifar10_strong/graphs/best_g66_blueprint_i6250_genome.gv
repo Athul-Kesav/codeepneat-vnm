@@ -1,0 +1,66 @@
+digraph best_g66_blueprint_i6250_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 6169" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 6169" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 4" [label="Species: 6
+Gene id: 4
+Module: 6213" fillcolor=yellow style=filled]
+	"blueprint_v 10" [label="Species: 0
+Gene id: 10
+Module: 6169" fillcolor=yellow style=filled]
+	"blueprint_v 14" [label="Species: 0
+Gene id: 14
+Module: 6169" fillcolor=yellow style=filled]
+	"blueprint_v 21" [label="Species: 0
+Gene id: 21
+Module: 6169" fillcolor=yellow style=filled]
+	"blueprint_v 21" -> "blueprint_v 10"
+	"blueprint_v 0" -> "blueprint_v 14"
+	"blueprint_v 14" -> "blueprint_v 4"
+	"blueprint_v 4" -> "blueprint_v 1"
+	"blueprint_v 0" -> "blueprint_v 4"
+	"blueprint_v 0" -> "blueprint_v 10"
+	"blueprint_v 10" -> "blueprint_v 4"
+	"blueprint_v 0" -> "blueprint_v 21"
+	"blueprint_v 21" -> "blueprint_v 4"
+	label=""
+	subgraph cluster_genome_i6169 {
+		"module_0_6169_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_6169_v 8" [fillcolor=cyan style=filled]
+		"module_0_6169_v 2" [fillcolor=cyan style=filled]
+		"module_0_6169_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_6169_v 0" -> "module_0_6169_v 1"
+		"module_0_6169_v 0" -> "module_0_6169_v 2"
+		"module_0_6169_v 2" -> "module_0_6169_v 1"
+		"module_0_6169_v 0" -> "module_0_6169_v 8"
+		"module_0_6169_v 8" -> "module_0_6169_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 6169"
+	}
+	subgraph cluster_genome_i6213 {
+		"module_6_6213_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_6_6213_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_6_6213_v 2" [fillcolor=cyan style=filled]
+		"module_6_6213_v 3" [fillcolor=cyan style=filled]
+		"module_6_6213_v 12" [label=Identity fillcolor=cyan style=filled]
+		"module_6_6213_v 55" [fillcolor=cyan style=filled]
+		"module_6_6213_v 89" [fillcolor=cyan style=filled]
+		"module_6_6213_v 0" -> "module_6_6213_v 1"
+		"module_6_6213_v 0" -> "module_6_6213_v 2"
+		"module_6_6213_v 2" -> "module_6_6213_v 1"
+		"module_6_6213_v 2" -> "module_6_6213_v 3"
+		"module_6_6213_v 55" -> "module_6_6213_v 12"
+		"module_6_6213_v 3" -> "module_6_6213_v 55"
+		"module_6_6213_v 12" -> "module_6_6213_v 89"
+		"module_6_6213_v 89" -> "module_6_6213_v 1"
+		"module_6_6213_v 2" -> "module_6_6213_v 55"
+		"module_6_6213_v 3" -> "module_6_6213_v 12"
+		color=lightgrey style=filled
+		label="Species: 6
+Module: 6213"
+	}
+}

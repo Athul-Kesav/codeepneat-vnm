@@ -1,0 +1,41 @@
+// phenotype
+digraph best_g7_blueprint_i731_phenotype {
+	"0_0" [label="Conv2d(3, 173, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 173'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(173, 108, kernel_size=(3, 3), stride=(1, 1))
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 108'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"1_0" [label="1_0
+Conv2d(108, 460, kernel_size=(1, 1), stride=(1, 1))
+BatchNorm2d(460, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+Dropout2d(p=0.23730928113813737, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 460'" fillcolor=yellow style=filled]
+	"0_1" -> "1_0"
+	"1_2" [label="1_2
+Conv2d(460, 99, kernel_size=(1, 1), stride=(1, 1))
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 99'" fillcolor=yellow style=filled]
+	"1_0" -> "1_2"
+	"1_5" [label="1_5
+Identity()" fillcolor=white style=filled]
+	"1_0" -> "1_5"
+	"1_agg (1)" [label="1_agg (1)
+" fillcolor=violet style=filled]
+	"1_5" -> "1_agg (1)"
+	"1_1" [label="1_1
+Reshape()
+Linear(in_features=13975, out_features=961, bias=True)
+BatchNorm1d(961, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 961'" fillcolor=lightblue style=filled]
+	"1_agg (1)" -> "1_1"
+	"1_agg (1)" [label="1_agg (1)
+" fillcolor=violet style=filled]
+	"1_2" -> "1_agg (1)"
+}

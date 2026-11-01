@@ -1,0 +1,31 @@
+digraph best_g79_blueprint_i7477_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 7412" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 0
+Gene id: 1
+Module: 7412" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 4" [label="Species: 0
+Gene id: 4
+Module: 7412" fillcolor=yellow style=filled]
+	"blueprint_v 7" [label="Species: 0
+Gene id: 7
+Module: 7412" fillcolor=yellow style=filled]
+	"blueprint_v 14" [label="Species: 0
+Gene id: 14
+Module: 7412" fillcolor=yellow style=filled]
+	"blueprint_v 0" -> "blueprint_v 14"
+	"blueprint_v 14" -> "blueprint_v 4"
+	"blueprint_v 4" -> "blueprint_v 1"
+	"blueprint_v 4" -> "blueprint_v 7"
+	"blueprint_v 7" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i7412 {
+		"module_0_7412_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_7412_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_7412_v 0" -> "module_0_7412_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 7412"
+	}
+}

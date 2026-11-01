@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import torch
 import torch.multiprocessing as mp
 from typing import TYPE_CHECKING, List, Dict
 
@@ -12,6 +13,12 @@ import src.main.singleton as singleton
 
 if TYPE_CHECKING:
     from src.genotype.cdn.genomes.blueprint_genome import BlueprintGenome
+
+
+def _is_cuda_oom(err: BaseException) -> bool:
+    oom_types = tuple(t for t in (getattr(torch, "OutOfMemoryError", None), getattr(torch.cuda, "OutOfMemoryError", None))
+                      if t is not None)  # torch.OutOfMemoryError only exists from PyTorch 2.5
+    return isinstance(err, oom_types) or "out of memory" in str(err).lower()
 
 
 def evaluate_blueprints(blueprint_q: mp.Queue,
@@ -57,8 +64,8 @@ def evaluate_blueprint(blueprint: BlueprintGenome, input_size: List[int],
         print("Blueprint - {:^5} - accuracy: {:05.2f}% (proc {}) epochs: {}"
               .format(blueprint.id, 0, mp.current_process().name, config.epochs_in_evolution))
         return blueprint
+    # Built on the CPU so that an oversized net is dropped before it touches the GPU.
     model_size = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    model = model.to(config.get_device())
     sample_map = model.sample_map
     if config.target_network_size != -1:
         model = get_model_of_target_size(blueprint, sample_map, model_size, input_size)
@@ -71,9 +78,18 @@ def evaluate_blueprint(blueprint: BlueprintGenome, input_size: List[int],
         num_epochs = config.loss_based_stopping_max_epochs \
             if config.loss_based_stopping_in_evolution \
             else config.epochs_in_evolution
-        accuracy = evaluate(model, n_epochs=num_epochs)
-        if accuracy == "retry":
-            raise Exception("no retries in evolution")
+        try:
+            model = model.to(config.get_device())
+            accuracy = evaluate(model, n_epochs=num_epochs)
+            if accuracy == "retry":
+                raise Exception("no retries in evolution")
+        except Exception as e:  # a net that does not fit on a shared GPU scores 0 instead of killing the search
+            if not _is_cuda_oom(e):
+                raise
+            print(f"dropped model that OOM'd with {model_size} params (proc {mp.current_process().name})")
+            accuracy = 0
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
 
     blueprint.update_best_sample_map(sample_map, accuracy)
     fitness = [accuracy, model_size]

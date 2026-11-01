@@ -18,6 +18,7 @@ MODELS = [  # run, dataset (config), [(blueprint, feature multiplier)]
     ("venom_cifar100_res", "cifar100", [(493, 1), (482, 1), (741, 1)]),
     ("venom_cifar100", "cifar100", [(430, 1), (427, 1), (499, 1)]),
     ("venom_cifar10", "cifar10", [(495, 1), (671, 1), (546, 1)]),
+    ("colab_baseline", "cifar10", [(608, 1)]),
     ("ada_cifar10_strong", "cifar10", [(1485, 3), (6826, 3), (6724, 3)]),
     ("imagenet100", "imagenet100", [(207, 1), (182, 1), (230, 1)]),
 ]
@@ -41,11 +42,11 @@ def main():
             before = set(os.listdir(gdir))
             model.visualize(prefix=f"{run_name}_")
             bp.visualize(prefix=f"{run_name}_")
-            for f in sorted(set(os.listdir(gdir)) - before):
+            for f in sorted(set(os.listdir(gdir)) - before):  # only the files this call created
                 if f.endswith(".png"):
                     kind = "phenotype" if "phenotype" in f else "blueprint_genome"
                     shutil.copy(os.path.join(gdir, f), os.path.join(OUT, f"{run_name}_bp{bp_id}_{kind}.png"))
-        shutil.rmtree(gdir, ignore_errors=True)
+                os.remove(os.path.join(gdir, f))
     print("saved to", os.path.abspath(OUT))
 
 

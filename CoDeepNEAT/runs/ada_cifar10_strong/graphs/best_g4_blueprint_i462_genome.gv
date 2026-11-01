@@ -1,0 +1,29 @@
+digraph best_g4_blueprint_i462_genome {
+	"blueprint_v 0" [label="Species: 0
+Gene id: 0
+Module: 387" fillcolor=yellow shape=Mdiamond style=filled]
+	"blueprint_v 1" [label="Species: 5
+Gene id: 1
+Module: 447" fillcolor=yellow shape=Msquare style=filled]
+	"blueprint_v 0" -> "blueprint_v 1"
+	label=""
+	subgraph cluster_genome_i387 {
+		"module_0_387_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_0_387_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_0_387_v 0" -> "module_0_387_v 1"
+		color=lightgrey style=filled
+		label="Species: 0
+Module: 387"
+	}
+	subgraph cluster_genome_i447 {
+		"module_5_447_v 0" [fillcolor=cyan shape=Mdiamond style=filled]
+		"module_5_447_v 1" [fillcolor=cyan shape=Msquare style=filled]
+		"module_5_447_v 2" [fillcolor=cyan style=filled]
+		"module_5_447_v 0" -> "module_5_447_v 1"
+		"module_5_447_v 0" -> "module_5_447_v 2"
+		"module_5_447_v 2" -> "module_5_447_v 1"
+		color=lightgrey style=filled
+		label="Species: 5
+Module: 447"
+	}
+}

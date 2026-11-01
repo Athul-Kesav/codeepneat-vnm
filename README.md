@@ -4,7 +4,9 @@ This project evolves CNNs with [CoDeepNEAT](https://arxiv.org/abs/1703.00548) an
 
 Pruned models are fine-tuned and then run on Sparse Tensor Cores with VENOM's **Spatha** kernel. We use three datasets: CIFAR-10, CIFAR-100 and ImageNet-100.
 
-**Full report:** [`report/report.pdf`](report/report.pdf) (22 pages; LaTeX source in `report/report.tex`).
+**Full report:** [`report/report.pdf`](report/report.pdf) (25 pages; LaTeX source in `report/report.tex`).
+
+**Team.** The CIFAR-10 experiments were done by Anirudh (originally in [Anirudhmoosad/codeepneat-venom](https://github.com/Anirudhmoosad/codeepneat-venom)): the Colab pilot, the 80-generation strong search, and the first Python prune/pack path with its 8-epoch recover study. Athul did CIFAR-100 and ImageNet-100, the Spatha integration and timing, and the second-order pruning. This repository merges both; the CIFAR-10 winner was then re-run through the CIFAR-100 pipeline. Anirudh's original CIFAR-10 report is kept as [`report/CoDeepNEAT_VNM.pdf`](report/CoDeepNEAT_VNM.pdf). Its accuracies were computed with CoDeepNEAT's buggy evaluator and are about 2 points high; `report/report.pdf` gives the corrected values.
 
 **Slides:** [`presentation/VNM_NEAT_CNNs.pptx`](presentation/VNM_NEAT_CNNs.pptx) (19 slides, with speaker notes).
 
@@ -23,6 +25,8 @@ Best evolved model: `bp493` from the residual+GAP search on CIFAR-100. Dense, it
 | 2:32, gradual OBS, V=32 (Spatha-runnable) | 61.50 | 25.5× | ≈1.4 MB | 1.19× |
 
 Speedup is only reported for V ≥ 32, because Spatha has no kernels for V = 8 or 16.
+
+CIFAR-10 Colab pilot: `bp608` (12 generations on a T4) scores 81.98% dense (83.16% as originally reported). Its convolutions are only 4.8% of its 47.4 MB, so V:N:M barely shrinks it (zero-shot V=8: 2:4 69.55%, 2:8 30.77%, 2:16 11.47%).
 
 CIFAR-10: `bp1485`, winner of an 80-generation search (`ada_cifar10_strong`), 11.1M parameters, 44.4 MB. Its dense checkpoint scores 85.61%; fine-tuned for 30 epochs without pruning (the fair control) it reaches 86.45%.
 
@@ -53,6 +57,7 @@ Speedups are at V=32, where the accuracy was measured; at V=128 the same pattern
   - A full forward pass is only 1.0–1.3× faster at large batch and is not faster at batch 1. Convolutions are under half the runtime, and im2col costs as much as the sparse GEMM.
 - **The recovery recipe decides what looks feasible.** The earlier CIFAR-10 study used an 8-epoch Adam recover without augmentation or distillation and found 2:16 unusable (26%). Our 30-epoch distilled fine-tune brings it to 85.5%.
 - **CoDeepNEAT's evaluator overstates accuracy** by n/(n−1) for n test batches: +1.3% relative at batch 128 on CIFAR, +2.6% at batch 256. It is fixed in this copy, and the report corrects every affected number.
+- **Search robustness.** A blueprint whose network would not fit in GPU memory during the search now scores 0 instead of crashing the generation (merged from the CIFAR-10 search code).
 - **Two silent Spatha bugs**, both returning wrong results without an error:
   - At M=32, the reduction dimension K must be padded to a multiple of 256.
   - A single call is limited to 65,535 column tiles.
@@ -67,7 +72,8 @@ final/
 │   ├── src/, configuration/    search code; configs in configuration/configs/{venom_cifar10,venom_cifar100,
 │   │                           venom_cifar100_res,imagenet100,ada_cifar10_strong}.json
 │   ├── data/                   DataManager.py (code) + Datasets/ (CIFAR-10/100 included; ImageNet-100 via setup_data.sh)
-│   └── runs/<run>/             one folder per search (ada_cifar10_strong = the 80-generation CIFAR-10 search)
+│   └── runs/<run>/             one folder per search (CIFAR-10: colab_baseline = Colab pilot, ada_cifar10_strong = 80-generation search,
+│                               venom_cifar10 = small search)
 │       ├── config.json, generations/*.pickle      architectures (needed to rebuild any blueprint)
 │       ├── fully_trained_models/                  CoDeepNEAT full-train weights (CIFAR-10 searches)
 │       ├── dense_fm3/                             bp1485 at feature multiplier 3 (ada_cifar10_strong)
@@ -144,7 +150,7 @@ Two environments are needed, because Spatha only builds against an old toolchain
 
 | Stage | Step | Command |
 |---|---|---|
-| search | Evolve + CoDeepNEAT full train | `scripts/run_search.sh <config>`: `venom_cifar10`, `venom_cifar100`, `imagenet100`, `venom_cifar100_res`, `ada_cifar10_strong` |
+| search | Evolve + CoDeepNEAT full train | `scripts/run_search.sh <config>`: `venom_cifar10`, `venom_cifar100`, `imagenet100`, `venom_cifar100_res`, `ada_cifar10_strong` (the Colab pilot `colab_baseline` was run on one T4: `cd CoDeepNEAT && python src/main/evo.py -c colab_baseline -g 1 && python src/main/ft.py -c colab_baseline -g 1`) |
 | train | Dense retrain, recipe v1 (CIFAR-100, ImageNet-100) | `scripts/run_retrain.sh <gpu>` for gpu 0, 1, 2 |
 | train | Dense retrain, recipe v2 (300 ep, CutMix, EMA) | `scripts/run_retrain_v2.sh orig` and `res` |
 | train | ResNet baselines | `scripts/run_resnets.sh` |
@@ -152,6 +158,7 @@ Two environments are needed, because Spatha only builds against an old toolchain
 | prune | V×M grids, magnitude, 30-ep KD fine-tune, Spatha GEMM timing | `scripts/run_grid2.sh` (ImageNet-100), `run_grid3.sh`, `run_gridres.sh`, `run_grid_resnet.sh` |
 | prune | One-shot OBS / gradual OBS | `scripts/run_obs.sh`, `scripts/run_gradual.sh` |
 | prune | CIFAR-10 strong-search winner bp1485 | `scripts/run_cifar10_ada.sh` |
+| prune | CIFAR-10 Colab pilot bp608, zero-shot | `cd CoDeepNEAT && python ../vnm/prune_eval.py --run colab_baseline --config colab_baseline --model runs/colab_baseline/fully_trained_models/bp-608_fm-1-best-1.model --v 8 --ms 4,8,16 --ft-epochs 0 --out vnm_zeroshot --layers-for-v ""` |
 | speed | Spatha V-scan | `scripts/run_vscan.sh <gpu> <V>` |
 | speed | End-to-end inference | `scripts/run_e2e.sh <gpu> <V>` (set `EXTRA="--models ... --batches 32,1"` for ImageNet-100) |
 | speed | ImageNet-100 correctness (32 images) | `scripts/run_in100_check.sh <gpu> <V>` |
@@ -189,6 +196,8 @@ The best model is `venom_cifar100_res_bp493_*`.
 - **Data loaders:** CIFAR-100 and ImageNet-100.
 - **`.view` → `.reshape`:** needed for channels-last tensors.
 - **Oversized classifiers:** such blueprints are dropped instead of crashing the generation.
+- **Out-of-memory during the search** (from the CIFAR-10 search code): networks are built on the CPU and moved to the GPU only for training; a CUDA out-of-memory error scores the blueprint 0 instead of killing the generation.
+- **Evaluator:** `test_nn` counts every test sample once (the upstream version overstated accuracy by n/(n−1)).
 - **Compatibility:** `imgaug` patched for current NumPy.
 
 ## Limitations

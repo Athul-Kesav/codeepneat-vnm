@@ -1,0 +1,29 @@
+// phenotype
+digraph best_g4_blueprint_i301_phenotype {
+	"0_0" [label="Conv2d(3, 162, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+<function relu at 0x7b1c5e3a3a60>
+'out features: 162'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(162, 151, kernel_size=(5, 5), stride=(2, 2))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 151'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"1_0" [label="1_0
+Conv2d(151, 162, kernel_size=(7, 7), stride=(1, 1))
+<function relu at 0x7b1c5e3a3a60>
+'out features: 162'" fillcolor=yellow style=filled]
+	"0_1" -> "1_0"
+	"1_2" [label="1_2
+Conv2d(162, 137, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2))
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 137'" fillcolor=yellow style=filled]
+	"1_0" -> "1_2"
+	"1_1" [label="1_1
+Conv2d(137, 122, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2))
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.18611548792561816, inplace=False)
+<function leaky_relu at 0x7b1c5e3a3ec0>
+'out features: 122'" fillcolor=yellow style=filled]
+	"1_2" -> "1_1"
+}

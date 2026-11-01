@@ -1,0 +1,45 @@
+// phenotype
+digraph best_g14_blueprint_i1388_phenotype {
+	"0_0" [label="Conv2d(3, 173, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(173, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 173'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(173, 422, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(422, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.3743510715289994, inplace=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 422'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"4_0" [label="4_0
+Conv2d(422, 173, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(173, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 173'" fillcolor=yellow style=filled]
+	"0_1" -> "4_0"
+	"4_1" [label="4_1
+Conv2d(173, 422, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+BatchNorm2d(422, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.3743510715289994, inplace=False)
+<function relu6 at 0x7f65f750a950>
+'out features: 422'" fillcolor=yellow style=filled]
+	"4_0" -> "4_1"
+	"1_0" [label="1_0
+Conv2d(422, 403, kernel_size=(5, 5), stride=(3, 3), padding=(2, 2))
+Dropout2d(p=0.1, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 403'" fillcolor=yellow style=filled]
+	"4_1" -> "1_0"
+	"1_1" [label="1_1
+Conv2d(403, 141, kernel_size=(5, 5), stride=(4, 4), padding=(2, 2))
+BatchNorm2d(141, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+Dropout2d(p=0.1, inplace=False)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 141'" fillcolor=yellow style=filled]
+	"1_0" -> "1_1"
+}

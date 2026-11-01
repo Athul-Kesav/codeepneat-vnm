@@ -1,0 +1,79 @@
+// phenotype
+digraph best_g37_blueprint_i3518_phenotype {
+	"0_0" [label="Conv2d(3, 121, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+BatchNorm2d(121, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.0967409904852326, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 121'" fillcolor=yellow style=filled]
+	"0_1" [label="0_1
+Conv2d(121, 298, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2))
+BatchNorm2d(298, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7f65f750a7a0>
+'out features: 298'" fillcolor=yellow style=filled]
+	"0_0" -> "0_1"
+	"2_0" [label="2_0
+Reshape()
+Linear(in_features=7450, out_features=161, bias=True)
+BatchNorm1d(161, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function leaky_relu at 0x7f65f750ab90>
+'out features: 161'" fillcolor=lightblue style=filled]
+	"0_1" -> "2_0"
+	"3518_agg (4)" [label="3518_agg (4)
+" fillcolor=violet style=filled]
+	"0_1" -> "3518_agg (4)"
+	"14_0" [label="14_0
+Conv2d(298, 121, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+BatchNorm2d(121, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.0967409904852326, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 121'" fillcolor=yellow style=filled]
+	"0_1" -> "14_0"
+	"14_1" [label="14_1
+Conv2d(121, 298, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2))
+BatchNorm2d(298, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+<function relu at 0x7f65f750a7a0>
+'out features: 298'" fillcolor=yellow style=filled]
+	"14_0" -> "14_1"
+	"3518_agg (4)" [label="3518_agg (4)
+" fillcolor=violet style=filled]
+	"14_1" -> "3518_agg (4)"
+	"4_0" [label="4_0
+BatchNorm2d(636, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"3518_agg (4)" -> "4_0"
+	"4_agg (1)" [label="4_agg (1)
+" fillcolor=violet style=filled]
+	"4_0" -> "4_agg (1)"
+	"4_2" [label="4_2
+Identity()" fillcolor=white style=filled]
+	"4_0" -> "4_2"
+	"4_agg (1)" [label="4_agg (1)
+" fillcolor=violet style=filled]
+	"4_2" -> "4_agg (1)"
+	"4_1" [label="4_1
+BatchNorm2d(1272, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"4_agg (1)" -> "4_1"
+	"3518_agg (1)" [label="3518_agg (1)
+" fillcolor=violet style=filled]
+	"4_1" -> "3518_agg (1)"
+	"1_0" [label="1_0
+Identity()" fillcolor=white style=filled]
+	"3518_agg (1)" -> "1_0"
+	"1_1" [label="1_1
+Conv2d(1312, 499, kernel_size=(1, 1), stride=(2, 2))
+MaxPool2d(kernel_size=3, stride=3, padding=1, dilation=1, ceil_mode=False)
+Dropout2d(p=0.7462999914098054, inplace=False)
+<function relu at 0x7f65f750a7a0>
+'out features: 499'" fillcolor=yellow style=filled]
+	"1_0" -> "1_1"
+	"2_1" [label="2_1
+BatchNorm1d(161, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)" fillcolor=green style=filled]
+	"2_0" -> "2_1"
+	"3518_agg (1)" [label="3518_agg (1)
+" fillcolor=violet style=filled]
+	"2_1" -> "3518_agg (1)"
+	"3518_agg (4)" [label="3518_agg (4)
+" fillcolor=violet style=filled]
+	"2_1" -> "3518_agg (4)"
+}
